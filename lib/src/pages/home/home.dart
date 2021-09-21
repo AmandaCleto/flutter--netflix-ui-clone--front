@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key, required this.title}) : super(key: key);
@@ -10,13 +11,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  List<String> uriNames = <String>[
+    'http://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg',
+    'https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/410.svg',
+    'https://upload.wikimedia.org/wikipedia/commons/b/b4/Chess_ndd45.svg',
+  ];
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  // String teste = 'assets/icons/teste.svg';
 
   @override
   Widget build(BuildContext context) {
@@ -25,23 +26,31 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                children: [
+                  Text("data1"),
+                  SvgPicture.network(
+                    uriNames[1],
+                    placeholderBuilder: (context) =>
+                        CircularProgressIndicator(),
+                    height: 128.0,
+                  ),
+                  // SvgPicture.asset('assets/icons/teste.svg'),
+                  SvgPicture.asset(
+                    'assets/icons/bottombar-coming-soon.svg',
+                    height: 30.0,
+                    width: 30.0,
+                    allowDrawingOutsideViewBox: true,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
       ),
     );
   }
