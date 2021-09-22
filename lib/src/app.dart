@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
-
 import 'provider/users.dart';
-
 import 'pages/home/home.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.black,
+      ),
+    );
     return (MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -27,8 +33,8 @@ class App extends StatelessWidget {
           },
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primarySwatch: Colors.teal,
-            scaffoldBackgroundColor: const Color(0xFFDCDCDD),
+            brightness: Brightness.light,
+            scaffoldBackgroundColor: Colors.black,
           ),
         ),
       ),
