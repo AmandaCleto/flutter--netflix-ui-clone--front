@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class ComingSoonPage extends StatefulWidget {
+  const ComingSoonPage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _ComingSoonPageState createState() => _ComingSoonPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ComingSoonPageState extends State<ComingSoonPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Center(
         child: Text(
-          'inicio',
+          'Em breve',
           style: TextStyle(color: Colors.white),
         ),
       ),
