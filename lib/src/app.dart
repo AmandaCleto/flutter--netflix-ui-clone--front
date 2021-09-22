@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
-import 'provider/users.dart';
-import 'pages/home/home.dart';
+// import 'provider/users.dart';
+import 'provider/bottomNavigationBar.dart';
+import 'pages/index.dart';
 
 class App extends StatelessWidget {
   @override
@@ -18,7 +19,7 @@ class App extends StatelessWidget {
     return (MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => UserProvider(),
+          create: (context) => BottomNavigationBarProvider(),
         ),
       ],
       child: GestureDetector(
@@ -29,7 +30,7 @@ class App extends StatelessWidget {
           title: 'Flutter Todo List',
           initialRoute: '/',
           routes: {
-            '/': (context) => HomePage(title: 'Flutter Demo Home Page'),
+            '/': (context) => IndexPage(title: 'Flutter Demo Home Page'),
           },
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
