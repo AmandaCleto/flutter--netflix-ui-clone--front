@@ -32,7 +32,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
         int activeTabProvider = bottomNavigationBarProvider.activeTab;
 
         return Container(
-          height: 60,
+          height: 55,
           decoration: BoxDecoration(
             color: Color(0xFF171717),
           ),
@@ -57,13 +57,13 @@ class BottomNavigationBarWidget extends StatelessWidget {
                           index == activeTabProvider
                               ? bottomIcons[index]['path-active']
                               : bottomIcons[index]['path'],
-                          height: 20,
-                          width: 20,
+                          height: 16,
+                          width: 16,
                           allowDrawingOutsideViewBox: true,
                         ),
                       ),
                       SizedBox(
-                        height: 8,
+                        height: 6,
                       ),
                       Text(
                         bottomIcons[index]['text'],
