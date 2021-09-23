@@ -20,32 +20,22 @@ class _HomePageState extends State<IndexPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<BottomNavigationBarProvider>(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: Colors.black,
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: BottomNavigationBarWidget(),
-      body: SafeArea(
-        child: Center(
-          child: Container(
-            color: Colors.black,
-            child: Row(
-              children: [
-                IndexedStack(
-                  index: provider.activeTab,
-                  children: [
-                    HomePage(),
-                    ComingSoonPage(),
-                    Center(
-                      child: Text(
-                        'Dowloads',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                )
-              ],
+      body: IndexedStack(
+        index: provider.activeTab,
+        children: [
+          HomePage(),
+          ComingSoonPage(),
+          Center(
+            child: Text(
+              'Dowloads',
+              style: TextStyle(color: Colors.white),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
