@@ -27,118 +27,146 @@ class _HomePageState extends State<HomePage> {
     final homeImgPosterPath = json['results'][4]['poster_path'];
 
     pathHomeImgPosterPath = '$imgPath$homeImgPosterPath';
-    print(pathHomeImgPosterPath);
+    // print(pathHomeImgPosterPath);
   }
 
   @override
   Widget build(BuildContext context) {
     final json = fetch();
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height - 85,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.fitHeight,
+          image: NetworkImage(
+            'https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80',
+          ),
+        ),
+      ),
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            floating: true,
+            brightness: Brightness.light,
+            backgroundColor: Colors.transparent,
+            excludeHeaderSemantics: false,
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.pin,
+              background: Container(
+                color: Colors.transparent,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 500,
-                          color: Colors.blueGrey,
-                          child: Image.network(pathHomeImgPosterPath))
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset(
-                          "assets/netflix-logo.png",
-                          width: 20,
-                          fit: BoxFit.cover,
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/search.svg',
-                              height: 18,
-                              width: 18,
-                              allowDrawingOutsideViewBox: true,
-                            ),
-                            SizedBox(
-                              width: 22,
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(2),
-                              ),
-                              child: Image.asset(
-                                "assets/user-hero.png",
-                                height: 20,
-                                width: 20,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 22,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        'Séries',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        'Filmes',
-                        style: TextStyle(color: Colors.white),
+                      Image.asset(
+                        "assets/netflix-logo.png",
+                        width: 20,
+                        fit: BoxFit.cover,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            'Categorias',
-                            style: TextStyle(color: Colors.white),
+                          SvgPicture.asset(
+                            'assets/icons/search.svg',
+                            height: 20,
+                            width: 20,
+                            allowDrawingOutsideViewBox: true,
                           ),
                           SizedBox(
-                            width: 10,
+                            width: 22,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4),
-                            child: SvgPicture.asset(
-                              'assets/icons/arrow-down.svg',
-                              height: 4,
-                              width: 4,
-                              allowDrawingOutsideViewBox: true,
+                          ClipRRect(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(2),
+                            ),
+                            child: Image.asset(
+                              "assets/user-hero.png",
+                              height: 20,
+                              width: 20,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ],
                       ),
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             ),
-          ],
-        ),
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(30),
+              child: Container(
+                height: 30,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      'Séries',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Text(
+                      'Filmes',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Categorias',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: SvgPicture.asset(
+                            'assets/icons/arrow-down.svg',
+                            height: 4,
+                            width: 4,
+                            allowDrawingOutsideViewBox: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 300),
+                  child: Container(
+                    color: Colors.blueAccent,
+                    height: 800,
+                    child: Column(
+                      children: [
+                        Container(
+                          color: Colors.red,
+                          width: MediaQuery.of(context).size.width,
+                          child: Text(
+                            'lista',
+                            style: TextStyle(color: Colors.amber, fontSize: 50),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

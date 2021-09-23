@@ -26,7 +26,6 @@ class _HomePageState extends State<IndexPage> {
       body: SafeArea(
         child: Center(
           child: Container(
-            height: MediaQuery.of(context).size.height,
             color: Colors.black,
             child: Row(
               children: [
