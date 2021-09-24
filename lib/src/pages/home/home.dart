@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:convert' as convert;
-import 'package:http/http.dart' as http;
-
 import 'components/appBar.dart';
+import '../../data/homeEmphasisData.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,21 +12,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String pathHomeImgPosterPath = '';
-  Future fetch() async {
-    var api =
-        'https://api.themoviedb.org/3/discover/movie?api_key=b08d03e485967449e3ee8777025070fd&page=5](https://api.themoviedb.org/2/discover/movie?primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22&language=pt-BR';
-    final Uri url = Uri.parse(api);
-    final response = await http.get(url);
-    final json = convert.jsonDecode(response.body);
-
-    final imgPath =
-        'https://image.tmdb.org/t/p/w500](https://image.tmdb.org/t/p/w500/)%7Bposter_path%7D[https://image.tmdb.org/t/p/w500](https://image.tmdb.org/t/p/w500/';
-
-    final homeImgPosterPath = json['results'][6]['poster_path'];
-
-    pathHomeImgPosterPath = '$imgPath$homeImgPosterPath';
-    // print(pathHomeImgPosterPath);
-  }
 
   late ScrollController scrollController;
   late double scrollPosition;
@@ -80,8 +63,21 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  String teste = '';
+
+  Future _getBannerApi() async {
+    final apiHomeEmphasisBanner = ApiHomeEmphasisBanner();
+    final emphasisBanner = await apiHomeEmphasisBanner.homeEmphasisDataFetch();
+
+    setState(() {
+      teste = emphasisBanner;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    _getBannerApi();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
@@ -97,22 +93,63 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: Column(
               children: [
-                Container(
-                  height: 600,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(
-                        'assets/home.jpg',
+                Stack(
+                  children: [
+                    Container(
+                      height: 600,
+                      width: size.width,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(teste),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              colors: [Colors.black, Colors.transparent],
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter),
+                        ),
                       ),
                     ),
-                  ),
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
-                  ),
+                    Positioned(
+                      bottom: 150,
+                      left: 0,
+                      right: 0,
+                      child: Column(
+                        children: [
+                          Text(
+                            'Violet Evergarden',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white, fontSize: 40),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Animação',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10),
+                              ),
+                              Text(
+                                'Violet Evergarden',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10),
+                              ),
+                              Text(
+                                'Violet Evergarden',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 Container(
                   height: 100,
@@ -124,33 +161,6 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.amber,
                       fontSize: 20,
                     ),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
                   ),
                 ),
                 Container(
