@@ -36,6 +36,8 @@ class _HomePageState extends State<HomePage> {
   bool isScrollingDown = false;
   bool hideTopAppBar = true;
 
+  double amountPixelsScrolled = 0.0;
+
   @override
   void initState() {
     scrollController = ScrollController();
@@ -62,6 +64,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         message = "descendo";
         hideTopAppBar = false;
+        amountPixelsScrolled = scrollController.position.pixels;
       });
     }
     if (scrollController.position.userScrollDirection ==
@@ -69,6 +72,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         message = "subindo";
         hideTopAppBar = true;
+        amountPixelsScrolled = scrollController.position.pixels;
       });
     }
   }
@@ -109,7 +113,8 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.red,
                   width: MediaQuery.of(context).size.width,
                   child: Text(
-                    'aqui $message: ${scrollController.position.pixels}',
+                    'aqui $message $amountPixelsScrolled',
+                    //$message: ${scrollController.position.pixels}
                     style: TextStyle(color: Colors.amber, fontSize: 20),
                   ),
                 ),
