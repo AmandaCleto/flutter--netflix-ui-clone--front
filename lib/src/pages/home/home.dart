@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/rendering.dart';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 
 import 'components/appBar.dart';
-
-import 'dart:convert' as convert;
-
-import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -32,15 +30,59 @@ class _HomePageState extends State<HomePage> {
     // print(pathHomeImgPosterPath);
   }
 
+  late ScrollController scrollController;
+  String message = '';
+  late double scrollPosition;
+  bool isScrollingDown = false;
+  bool hideTopAppBar = true;
+
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
+  _scrollListener() {
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      setState(() {
+        message = "reach the bottom";
+      });
+    }
+    if (scrollController.offset <= scrollController.position.minScrollExtent &&
+        !scrollController.position.outOfRange) {
+      setState(() {
+        message = "reach the top";
+      });
+    }
+
+    if (scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      setState(() {
+        message = "descendo";
+        hideTopAppBar = false;
+      });
+    }
+    if (scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+      setState(() {
+        message = "subindo";
+        hideTopAppBar = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-        child: CustomAppBar(scrollOffset: 100),
+        preferredSize: Size.fromHeight(hideTopAppBar ? 100.0 : 60.0),
+        child: CustomAppBar(scrollOffset: 100, hideTopAppBar: hideTopAppBar),
       ),
       body: SingleChildScrollView(
+        controller: scrollController,
         child: Flex(direction: Axis.horizontal, children: [
           Expanded(
             child: Column(
@@ -56,6 +98,33 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
+                  width: MediaQuery.of(context).size.width,
+                  child: Text(
+                    'lista',
+                    style: TextStyle(color: Colors.amber, fontSize: 50),
+                  ),
+                ),
+                Container(
+                  height: 100,
+                  color: Colors.red,
+                  width: MediaQuery.of(context).size.width,
+                  child: Text(
+                    'aqui $message: ${scrollController.position.pixels}',
+                    style: TextStyle(color: Colors.amber, fontSize: 20),
+                  ),
+                ),
+                Container(
+                  height: 100,
+                  color: Colors.red,
+                  width: MediaQuery.of(context).size.width,
+                  child: Text(
+                    'lista',
+                    style: TextStyle(color: Colors.amber, fontSize: 50),
+                  ),
+                ),
+                Container(
+                  height: 100,
+                  color: Colors.red,
                   width: MediaQuery.of(context).size.width,
                   child: Text(
                     'lista',
