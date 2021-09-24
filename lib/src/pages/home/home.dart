@@ -31,12 +31,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   late ScrollController scrollController;
-  String message = '';
   late double scrollPosition;
   bool isScrollingDown = false;
   bool hideTopAppBar = true;
-
-  double amountPixelsScrolled = 0.0;
 
   @override
   void initState() {
@@ -45,34 +42,40 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  _scrollListener() {
-    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-        !scrollController.position.outOfRange) {
-      setState(() {
-        message = "reach the bottom";
-      });
-    }
-    if (scrollController.offset <= scrollController.position.minScrollExtent &&
-        !scrollController.position.outOfRange) {
-      setState(() {
-        message = "reach the top";
-      });
-    }
+  double scrollAmountPrefferedSize = 100.0;
+  double scrollAmountAppBar = 60.0;
 
-    if (scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
-      setState(() {
-        message = "descendo";
-        hideTopAppBar = false;
-        amountPixelsScrolled = scrollController.position.pixels;
-      });
-    }
+  _scrollListener() {
     if (scrollController.position.userScrollDirection ==
         ScrollDirection.forward) {
       setState(() {
-        message = "subindo";
+        //descendo
+        // print(scrollController.position.pixels);
+        if (scrollAmountPrefferedSize < 100) {
+          scrollAmountPrefferedSize += 1.0;
+        }
+
+        if (scrollAmountAppBar < 60) {
+          scrollAmountAppBar += 1.0;
+        }
+
+        hideTopAppBar = false;
+      });
+    }
+    if (scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      setState(() {
+        //subindo
+
+        if (scrollAmountPrefferedSize > 60) {
+          scrollAmountPrefferedSize -= 1.0;
+        }
+
+        if (scrollAmountAppBar > 10) {
+          scrollAmountAppBar -= 1.0;
+        }
+
         hideTopAppBar = true;
-        amountPixelsScrolled = scrollController.position.pixels;
       });
     }
   }
@@ -82,8 +85,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(hideTopAppBar ? 100.0 : 60.0),
-        child: CustomAppBar(scrollOffset: 100, hideTopAppBar: hideTopAppBar),
+        preferredSize: Size.fromHeight(scrollAmountPrefferedSize),
+        child: CustomAppBar(
+          scrollOffset: 200,
+          scrollAmountAppBar: scrollAmountAppBar,
+        ),
       ),
       body: SingleChildScrollView(
         controller: scrollController,
@@ -110,26 +116,19 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   height: 100,
-                  color: Colors.red,
+                  color: Colors.black,
                   width: MediaQuery.of(context).size.width,
                   child: Text(
-                    'aqui $message $amountPixelsScrolled',
-                    //$message: ${scrollController.position.pixels}
-                    style: TextStyle(color: Colors.amber, fontSize: 20),
+                    'aqui $scrollAmountPrefferedSize',
+                    style: TextStyle(
+                      color: Colors.amber,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
                 Container(
                   height: 100,
-                  color: Colors.red,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.red,
+                  color: Colors.black,
                   width: MediaQuery.of(context).size.width,
                   child: Text(
                     'lista',
@@ -138,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   height: 100,
-                  color: Colors.red,
+                  color: Colors.black,
                   width: MediaQuery.of(context).size.width,
                   child: Text(
                     'lista',
@@ -147,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   height: 100,
-                  color: Colors.red,
+                  color: Colors.black,
                   width: MediaQuery.of(context).size.width,
                   child: Text(
                     'lista',
@@ -156,7 +155,16 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   height: 100,
-                  color: Colors.red,
+                  color: Colors.black,
+                  width: MediaQuery.of(context).size.width,
+                  child: Text(
+                    'lista',
+                    style: TextStyle(color: Colors.amber, fontSize: 50),
+                  ),
+                ),
+                Container(
+                  height: 100,
+                  color: Colors.black,
                   width: MediaQuery.of(context).size.width,
                   child: Text(
                     'lista',

@@ -4,12 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomAppBar extends StatefulWidget {
   final double scrollOffset;
-  final bool hideTopAppBar;
+  final double scrollAmountAppBar;
 
   const CustomAppBar({
     Key? key,
     required this.scrollOffset,
-    required this.hideTopAppBar,
+    required this.scrollAmountAppBar,
   }) : super(key: key);
 
   @override
@@ -20,31 +20,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
   late ScrollController _scrollViewController;
 
   bool isScrollingDown = false;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _scrollViewController = new ScrollController();
-  //   _scrollViewController.addListener(() {
-  //     if (_scrollViewController.position.userScrollDirection ==
-  //         ScrollDirection.reverse) {
-  //       if (!isScrollingDown) {
-  //         isScrollingDown = true;
-  //         widget.hideTopAppBar = false;
-  //         setState(() {});
-  //       }
-  //     }
-
-  //     if (_scrollViewController.position.userScrollDirection ==
-  //         ScrollDirection.forward) {
-  //       if (isScrollingDown) {
-  //         isScrollingDown = false;
-  //         widget.hideTopAppBar = true;
-  //         setState(() {});
-  //       }
-  //     }
-  //   });
-  // }
 
   @override
   void dispose() {
@@ -73,9 +48,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       elevation: 0,
                       flexibleSpace: Column(
                         children: [
-                          AnimatedContainer(
-                            height: widget.hideTopAppBar ? 60.0 : 10.0,
-                            duration: Duration(milliseconds: 0),
+                          Container(
+                            height: widget.scrollAmountAppBar,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
@@ -86,7 +60,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                   Image.asset(
                                     "assets/netflix-logo.png",
                                     width: 20,
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.contain,
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -102,15 +76,18 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                       SizedBox(
                                         width: 22,
                                       ),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(2),
-                                        ),
-                                        child: Image.asset(
-                                          "assets/user-hero.png",
-                                          height: 22,
-                                          width: 22,
-                                          fit: BoxFit.cover,
+                                      Container(
+                                        height: 20,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(2),
+                                          ),
+                                          child: Image.asset(
+                                            "assets/user-hero.png",
+                                            height: 22,
+                                            width: 22,
+                                            fit: BoxFit.fitHeight,
+                                          ),
                                         ),
                                       ),
                                     ],
