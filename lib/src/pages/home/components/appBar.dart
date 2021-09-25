@@ -53,39 +53,49 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Image.asset(
                                     "assets/netflix-logo.png",
-                                    width: 20,
+                                    width: 25,
                                     fit: BoxFit.contain,
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
                                       SvgPicture.asset(
+                                        'assets/icons/transmit.svg',
+                                        height: 21,
+                                        width: 21,
+                                        allowDrawingOutsideViewBox: true,
+                                      ),
+                                      SizedBox(
+                                        width: 22,
+                                      ),
+                                      SvgPicture.asset(
                                         'assets/icons/search.svg',
-                                        height: 20,
-                                        width: 20,
+                                        height: 21,
+                                        width: 21,
                                         allowDrawingOutsideViewBox: true,
                                       ),
                                       SizedBox(
                                         width: 22,
                                       ),
                                       Container(
-                                        height: 20,
+                                        height: 24,
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(2),
                                           ),
                                           child: Image.asset(
                                             "assets/user-hero.png",
-                                            height: 22,
-                                            width: 22,
+                                            height: 24,
+                                            width: 24,
                                             fit: BoxFit.fitHeight,
                                           ),
                                         ),
@@ -101,22 +111,31 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           ),
                           Container(
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
                                   'Séries',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
                                 ),
                                 Text(
                                   'Filmes',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
                                 ),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
                                       'Categorias',
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
                                     ),
                                     SizedBox(
                                       width: 10,
