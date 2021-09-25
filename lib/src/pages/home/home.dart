@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:convert' as convert;
-import 'package:http/http.dart' as http;
-
+import 'package:flutter_svg/svg.dart';
 import 'components/appBar.dart';
+import '../../data/homeEmphasisData.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,37 +12,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String pathHomeImgPosterPath = '';
-  Future fetch() async {
-    var api =
-        'https://api.themoviedb.org/3/discover/movie?api_key=b08d03e485967449e3ee8777025070fd&page=5](https://api.themoviedb.org/2/discover/movie?primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22&language=pt-BR';
-    final Uri url = Uri.parse(api);
-    final response = await http.get(url);
-    final json = convert.jsonDecode(response.body);
-
-    final imgPath =
-        'https://image.tmdb.org/t/p/w500](https://image.tmdb.org/t/p/w500/)%7Bposter_path%7D[https://image.tmdb.org/t/p/w500](https://image.tmdb.org/t/p/w500/';
-
-    final homeImgPosterPath = json['results'][6]['poster_path'];
-
-    pathHomeImgPosterPath = '$imgPath$homeImgPosterPath';
-    // print(pathHomeImgPosterPath);
-  }
-
   late ScrollController scrollController;
-  late double scrollPosition;
-  bool isScrollingDown = false;
   bool hideTopAppBar = true;
+  String teste = '';
+  String imgPath = 'https://image.tmdb.org/t/p/w500';
+
+  late Future<ApiHomeEmphasisBanner> futureEmphasis;
 
   @override
   void initState() {
+    super.initState();
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
-    super.initState();
+
+    futureEmphasis = homeEmphasisDataFetch();
   }
 
-  double scrollAmountPrefferedSize = 100.0;
-  double scrollAmountAppBar = 60.0;
+  double scrollAmountPrefferedSize = 120.0;
+  double scrollAmountAppBar = 80.0;
 
   _scrollListener() {
     if (scrollController.position.userScrollDirection ==
@@ -80,8 +66,13 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  bool showImageText = false;
+
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    print('oi');
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
@@ -98,77 +89,239 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Container(
+                  width: size.width,
                   height: 600,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(
-                        'assets/home.jpg',
+                  child: Stack(
+                    children: [
+                      FutureBuilder<ApiHomeEmphasisBanner>(
+                        future: futureEmphasis,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Stack(
+                              children: [
+                                Stack(
+                                  children: [
+                                    Container(
+                                      height: size.height,
+                                      width: size.width,
+                                      child: Image.network(
+                                        '$imgPath${snapshot.data!.banner}',
+                                        fit: BoxFit.fill,
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
+
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.blueAccent,
+                                            ),
+                                          );
+                                        },
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Text('Erros ocorreram!'),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: size.height,
+                                      width: size.width,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          gradient: LinearGradient(
+                                              begin: FractionalOffset.topCenter,
+                                              end:
+                                                  FractionalOffset.bottomCenter,
+                                              colors: [
+                                                Colors.grey.withOpacity(0.0),
+                                                Colors.black,
+                                              ],
+                                              stops: [
+                                                0.0,
+                                                1.0
+                                              ])),
+                                    )
+                                  ],
+                                ),
+                                Positioned(
+                                  bottom: 70,
+                                  left: 0,
+                                  right: 0,
+                                  child: Column(
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          Text(
+                                            snapshot.data!.title,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 40,
+                                              foreground: Paint()
+                                                ..style = PaintingStyle.stroke
+                                                ..strokeWidth = 6
+                                                ..color = Color(0xFF445767),
+                                            ),
+                                          ),
+                                          Text(
+                                            snapshot.data!.title,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 40,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: snapshot.data!.genres
+                                            .asMap()
+                                            .map(
+                                              (index, item) => MapEntry(
+                                                index,
+                                                Row(
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        text: item['name'],
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                        children: [
+                                                          TextSpan(
+                                                            text: index ==
+                                                                    snapshot
+                                                                            .data!
+                                                                            .genres
+                                                                            .length -
+                                                                        1
+                                                                ? ''
+                                                                : '   •   ',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.amber,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                            .values
+                                            .toList(),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/icons/add.svg',
+                                                height: 20,
+                                                width: 20,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                'Minha lista',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          ElevatedButton.icon(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.white,
+                                              onPrimary: Colors.black,
+                                              textStyle: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            onPressed: () {},
+                                            icon: SvgPicture.asset(
+                                              'assets/icons/play.svg',
+                                              height: 14,
+                                              width: 14,
+                                              allowDrawingOutsideViewBox: true,
+                                            ),
+                                            label: const Text('Assistir'),
+                                          ),
+                                          Column(
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/icons/info.svg',
+                                                height: 20,
+                                                width: 20,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                'Saiba mais',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+
+                          return const CircularProgressIndicator();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: Colors.black,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Container(
+                      color: Colors.black,
+                      width: size.width,
+                      child: Text(
+                        'Só na Neflix',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'aqui $scrollAmountPrefferedSize',
-                    style: TextStyle(
-                      color: Colors.amber,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
                   ),
                 ),
               ],
