@@ -35,7 +35,7 @@ class App extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             brightness: Brightness.light,
-            scaffoldBackgroundColor: Colors.amber,
+            scaffoldBackgroundColor: Colors.black,
           ),
         ),
       ),
