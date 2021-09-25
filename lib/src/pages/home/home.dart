@@ -11,18 +11,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String pathHomeImgPosterPath = '';
-
   late ScrollController scrollController;
-  late double scrollPosition;
-  bool isScrollingDown = false;
   bool hideTopAppBar = true;
+  String teste = '';
+  String imgPath = 'https://image.tmdb.org/t/p/w500';
+
+  late Future<ApiHomeEmphasisBanner> futureEmphasis;
 
   @override
   void initState() {
+    super.initState();
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
-    super.initState();
+
+    futureEmphasis = homeEmphasisDataFetch();
   }
 
   double scrollAmountPrefferedSize = 100.0;
@@ -63,21 +65,13 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  String teste = '';
-
-  Future _getBannerApi() async {
-    final apiHomeEmphasisBanner = ApiHomeEmphasisBanner();
-    final emphasisBanner = await apiHomeEmphasisBanner.homeEmphasisDataFetch();
-
-    setState(() {
-      teste = emphasisBanner;
-    });
-  }
+  bool showImageText = false;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    _getBannerApi();
+    print('oi');
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
@@ -93,70 +87,127 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: Column(
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      height: 600,
-                      child: Image.network(
-                        teste,
-                        fit: BoxFit.fill,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Text('oi');
-                        },
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child;
+                Container(
+                  width: size.width,
+                  height: 600,
+                  child: Stack(
+                    children: [
+                      FutureBuilder<ApiHomeEmphasisBanner>(
+                        future: futureEmphasis,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Stack(
+                              children: [
+                                Container(
+                                  height: size.height,
+                                  width: size.width,
+                                  child: Image.network(
+                                    '$imgPath${snapshot.data!.banner}',
+                                    fit: BoxFit.fill,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                            color: Colors.blueAccent),
+                                      );
+                                    },
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            Text('Erros ocorreram!'),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 70,
+                                  left: 0,
+                                  right: 0,
+                                  child: Column(
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          Text(
+                                            snapshot.data!.title,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 40,
+                                              foreground: Paint()
+                                                ..style = PaintingStyle.stroke
+                                                ..strokeWidth = 6
+                                                ..color = Color(0xFF445767),
+                                            ),
+                                          ),
+                                          Text(
+                                            snapshot.data!.title,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 40,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: snapshot.data!.genres
+                                            .asMap()
+                                            .map(
+                                              (index, item) => MapEntry(
+                                                index,
+                                                Row(
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        text: item['name'],
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                        ),
+                                                        children: [
+                                                          TextSpan(
+                                                            text: index ==
+                                                                    snapshot
+                                                                            .data!
+                                                                            .genres
+                                                                            .length -
+                                                                        1
+                                                                ? ''
+                                                                : '   •   ',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.amber,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                            .values
+                                            .toList(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
                           }
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.red,
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          );
+
+                          return const CircularProgressIndicator();
                         },
                       ),
-                    ),
-                    Positioned(
-                      bottom: 150,
-                      left: 0,
-                      right: 0,
-                      child: Column(
-                        children: [
-                          Text(
-                            'Violet Evergarden',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white, fontSize: 40),
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Animação',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 10),
-                              ),
-                              Text(
-                                'Violet Evergarden',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 10),
-                              ),
-                              Text(
-                                'Violet Evergarden',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 10),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Container(
                   height: 100,
