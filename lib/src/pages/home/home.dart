@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/svg.dart';
 import 'components/appBar.dart';
 import '../../data/homeEmphasisData.dart';
 
@@ -27,8 +28,8 @@ class _HomePageState extends State<HomePage> {
     futureEmphasis = homeEmphasisDataFetch();
   }
 
-  double scrollAmountPrefferedSize = 100.0;
-  double scrollAmountAppBar = 60.0;
+  double scrollAmountPrefferedSize = 120.0;
+  double scrollAmountAppBar = 80.0;
 
   _scrollListener() {
     if (scrollController.position.userScrollDirection ==
@@ -98,25 +99,49 @@ class _HomePageState extends State<HomePage> {
                           if (snapshot.hasData) {
                             return Stack(
                               children: [
-                                Container(
-                                  height: size.height,
-                                  width: size.width,
-                                  child: Image.network(
-                                    '$imgPath${snapshot.data!.banner}',
-                                    fit: BoxFit.fill,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
+                                Stack(
+                                  children: [
+                                    Container(
+                                      height: size.height,
+                                      width: size.width,
+                                      child: Image.network(
+                                        '$imgPath${snapshot.data!.banner}',
+                                        fit: BoxFit.fill,
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
 
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                            color: Colors.blueAccent),
-                                      );
-                                    },
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            Text('Erros ocorreram!'),
-                                  ),
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.blueAccent,
+                                            ),
+                                          );
+                                        },
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Text('Erros ocorreram!'),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: size.height,
+                                      width: size.width,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          gradient: LinearGradient(
+                                              begin: FractionalOffset.topCenter,
+                                              end:
+                                                  FractionalOffset.bottomCenter,
+                                              colors: [
+                                                Colors.grey.withOpacity(0.0),
+                                                Colors.black,
+                                              ],
+                                              stops: [
+                                                0.0,
+                                                1.0
+                                              ])),
+                                    )
+                                  ],
                                 ),
                                 Positioned(
                                   bottom: 70,
@@ -165,6 +190,8 @@ class _HomePageState extends State<HomePage> {
                                                         text: item['name'],
                                                         style: TextStyle(
                                                           color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
                                                         children: [
                                                           TextSpan(
@@ -194,6 +221,76 @@ class _HomePageState extends State<HomePage> {
                                             .values
                                             .toList(),
                                       ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/icons/add.svg',
+                                                height: 20,
+                                                width: 20,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                'Minha lista',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          ElevatedButton.icon(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.white,
+                                              onPrimary: Colors.black,
+                                              textStyle: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            onPressed: () {},
+                                            icon: SvgPicture.asset(
+                                              'assets/icons/play.svg',
+                                              height: 14,
+                                              width: 14,
+                                              allowDrawingOutsideViewBox: true,
+                                            ),
+                                            label: const Text('Assistir'),
+                                          ),
+                                          Column(
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/icons/info.svg',
+                                                height: 20,
+                                                width: 20,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                'Saiba mais',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -210,33 +307,21 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Container(
-                  height: 100,
                   color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'aqui $scrollAmountPrefferedSize',
-                    style: TextStyle(
-                      color: Colors.amber,
-                      fontSize: 20,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Container(
+                      color: Colors.black,
+                      width: size.width,
+                      child: Text(
+                        'Só na Neflix',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'lista',
-                    style: TextStyle(color: Colors.amber, fontSize: 50),
                   ),
                 ),
               ],

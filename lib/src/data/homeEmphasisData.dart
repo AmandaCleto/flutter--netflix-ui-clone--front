@@ -32,9 +32,3 @@ Future<ApiHomeEmphasisBanner> homeEmphasisDataFetch() async {
     throw Exception('Erro no carregar dados do banner principal');
   }
 }
-
-    // final imgPath = 'https://image.tmdb.org/t/p/w500';
-    // final imagePosterToken = json['poster_path'];
-    // final String urlImagePosterPath = '$imgPath$imagePosterToken';
-
-    // final genres = json['genres'];
