@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
-import 'components/appBar.dart';
+
 import '../../data/homeEmphasisData.dart';
+import '../../data/homeData.dart';
+
+import 'components/appBar.dart';
+import 'components/carousel.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,12 +16,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late ScrollController scrollController;
   bool hideTopAppBar = true;
-  String teste = '';
+
+  late ScrollController scrollController;
+  double scrollAmountPrefferedSize = 120.0;
+  double scrollAmountAppBar = 80.0;
+
   String imgPath = 'https://image.tmdb.org/t/p/w500';
 
-  late Future<ApiHomeEmphasisBanner> futureEmphasis;
+  //Futures
+  late Future<ApiHomeEmphasisData> futureEmphasis;
+  late Future<ApiHomeData> futureMostPopular;
+
+  //APIS
+  String mostPopularApi =
+      'https://api.themoviedb.org/3/movie/popular?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
 
   @override
   void initState() {
@@ -26,10 +39,8 @@ class _HomePageState extends State<HomePage> {
     scrollController.addListener(_scrollListener);
 
     futureEmphasis = homeEmphasisDataFetch();
+    futureMostPopular = homeDataFetch(mostPopularApi);
   }
-
-  double scrollAmountPrefferedSize = 120.0;
-  double scrollAmountAppBar = 80.0;
 
   _scrollListener() {
     if (scrollController.position.userScrollDirection ==
@@ -66,12 +77,9 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  bool showImageText = false;
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print('oi');
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -93,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                   height: 600,
                   child: Stack(
                     children: [
-                      FutureBuilder<ApiHomeEmphasisBanner>(
+                      FutureBuilder<ApiHomeEmphasisData>(
                         future: futureEmphasis,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
@@ -306,23 +314,10 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                Container(
-                  color: Colors.black,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Container(
-                      color: Colors.black,
-                      width: size.width,
-                      child: Text(
-                        'Só na Neflix',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
+                Carousel(
+                  title: 'Mais populares',
+                  api: mostPopularApi,
+                  future: futureMostPopular,
                 ),
               ],
             ),
