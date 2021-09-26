@@ -4,8 +4,6 @@ import 'dart:async';
 
 class ApiHomeData {
   final int page;
-  // final String title;
-  // final List genres;
 
   ApiHomeData({
     required this.page,
@@ -24,6 +22,6 @@ Future<ApiHomeData> homeDataFetch(api) async {
   if (response.statusCode == 200) {
     return ApiHomeData.fromJson(convert.jsonDecode(response.body));
   } else {
-    throw Exception('Erro no carregar dados do banner principal');
+    throw Exception('Erro no carregar dados');
   }
 }

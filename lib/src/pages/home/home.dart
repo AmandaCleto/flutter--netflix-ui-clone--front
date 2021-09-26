@@ -3,7 +3,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../data/homeEmphasisData.dart';
-import '../../data/homeData.dart';
 
 import 'components/appBar.dart';
 import 'components/carousel.dart';
@@ -26,7 +25,6 @@ class _HomePageState extends State<HomePage> {
 
   //Futures
   late Future<ApiHomeEmphasisData> futureEmphasis;
-  late Future<ApiHomeData> futureMostPopular;
 
   //APIS
   String mostPopularApi =
@@ -39,7 +37,6 @@ class _HomePageState extends State<HomePage> {
     scrollController.addListener(_scrollListener);
 
     futureEmphasis = homeEmphasisDataFetch();
-    futureMostPopular = homeDataFetch(mostPopularApi);
   }
 
   _scrollListener() {
@@ -317,7 +314,6 @@ class _HomePageState extends State<HomePage> {
                 Carousel(
                   title: 'Mais populares',
                   api: mostPopularApi,
-                  future: futureMostPopular,
                 ),
               ],
             ),
