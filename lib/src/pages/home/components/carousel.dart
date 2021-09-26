@@ -5,11 +5,12 @@ import '../../../data/homeData.dart';
 class Carousel extends StatefulWidget {
   final String title;
   final String api;
-  final Future<dynamic> future;
 
-  const Carousel(
-      {Key? key, required this.title, required this.api, required this.future})
-      : super(key: key);
+  const Carousel({
+    Key? key,
+    required this.title,
+    required this.api,
+  }) : super(key: key);
 
   @override
   _CarouselState createState() => _CarouselState();
@@ -17,11 +18,12 @@ class Carousel extends StatefulWidget {
 
 class _CarouselState extends State<Carousel> {
   //FutureEmphasis
-  // late Future<ApiHomeEmphasisBanner> futureEmphasis;
+  late Future<ApiHomeData> futureSubject;
 
   @override
   void initState() {
     super.initState();
+    futureSubject = homeDataFetch(widget.api);
   }
 
   @override
@@ -44,18 +46,18 @@ class _CarouselState extends State<Carousel> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              // FutureBuilder<ApiHomeData>(
-              //   future: widget.future,
-              //   builder: (context, snapshot) {
-              //     if (snapshot.hasData) {
-              //       return Stack(children: [Text('iu')]);
-              //     } else if (snapshot.hasError) {
-              //       return Text('${snapshot.error}');
-              //     }
+              FutureBuilder<ApiHomeData>(
+                future: futureSubject,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Stack(children: [Text('iu')]);
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
 
-              //     return const CircularProgressIndicator();
-              //   },
-              // ),
+                  return const CircularProgressIndicator();
+                },
+              ),
             ],
           ),
         ),
