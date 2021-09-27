@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
-// import 'provider/users.dart';
+
 import 'provider/bottomNavigationBar.dart';
 import 'pages/index.dart';
+import 'pages/home/detailedItem.dart';
 
 class App extends StatelessWidget {
   @override
@@ -30,7 +31,8 @@ class App extends StatelessWidget {
           title: 'Flutter Todo List',
           initialRoute: '/',
           routes: {
-            '/': (context) => IndexPage(title: 'Flutter Demo Home Page'),
+            '/': (context) => IndexPage(),
+            '/detailedItem': (context) => DatailedItem(),
           },
           debugShowCheckedModeBanner: false,
           theme: ThemeData(

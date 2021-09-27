@@ -7,9 +7,7 @@ import 'comingSoon/comingSoon.dart';
 import 'home/home.dart';
 
 class IndexPage extends StatefulWidget {
-  IndexPage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  IndexPage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();

@@ -10,6 +10,16 @@ class DatailedItem extends StatefulWidget {
 class _DatailedItemState extends State<DatailedItem> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      backgroundColor: Colors.amber,
+      body: Container(
+        child: Text(
+          'oii',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+      ),
+    );
   }
 }
