@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/homeData.dart';
+import 'bottomSheet.dart';
 
 class Carousel extends StatefulWidget {
   final String title;
@@ -19,12 +20,14 @@ class Carousel extends StatefulWidget {
 }
 
 class _CarouselState extends State<Carousel> {
+  late String banner = '';
   //FutureEmphasis
   late Future<ApiHomeData> futureSubject;
 
   @override
   void initState() {
     super.initState();
+    banner = widget.imgPath;
     futureSubject = homeDataFetch(widget.api);
   }
 
@@ -72,17 +75,22 @@ class _CarouselState extends State<Carousel> {
                                   index,
                                   Row(
                                     children: [
-                                      Container(
-                                        margin: EdgeInsets.only(right: 6),
-                                        width: 110,
-                                        height: 160,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
+                                      GestureDetector(
+                                        onTap: () => modalBottomSheet(
+                                            context, item, banner),
+                                        child: Container(
+                                          margin: EdgeInsets.only(right: 6),
+                                          width: 110,
+                                          height: 160,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
                                               image: NetworkImage(
-                                            '${widget.imgPath}${item['poster_path']}',
-                                          )),
-                                          borderRadius:
-                                              BorderRadius.circular(4),
+                                                '$banner${item['poster_path']}',
+                                              ),
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
                                         ),
                                       )
                                     ],
