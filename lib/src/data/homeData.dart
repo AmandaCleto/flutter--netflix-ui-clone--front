@@ -4,14 +4,17 @@ import 'dart:async';
 
 class ApiHomeData {
   final int page;
+  final List results;
 
   ApiHomeData({
     required this.page,
+    required this.results,
   });
 
   factory ApiHomeData.fromJson(Map<String, dynamic> json) {
     return ApiHomeData(
       page: json['page'],
+      results: json['results'],
     );
   }
 }

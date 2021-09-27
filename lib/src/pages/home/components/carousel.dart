@@ -4,11 +4,13 @@ import '../../../data/homeData.dart';
 
 class Carousel extends StatefulWidget {
   final String title;
+  final String imgPath;
   final String api;
 
   const Carousel({
     Key? key,
     required this.title,
+    required this.imgPath,
     required this.api,
   }) : super(key: key);
 
@@ -37,25 +39,70 @@ class _CarouselState extends State<Carousel> {
           color: Colors.black,
           width: size.width,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.title,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+              ),
+              SizedBox(
+                height: 20,
               ),
               FutureBuilder<ApiHomeData>(
                 future: futureSubject,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Stack(children: [Text('iu')]);
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 4),
+                        child: Row(
+                          children: snapshot.data!.results
+                              .asMap()
+                              .map(
+                                (index, item) => MapEntry(
+                                  index,
+                                  Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(right: 6),
+                                        width: 110,
+                                        height: 160,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                            '${widget.imgPath}${item['poster_path']}',
+                                          )),
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                              .values
+                              .toList(),
+                        ),
+                      ),
+                    );
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
 
-                  return const CircularProgressIndicator();
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Color(0xFFFE0000),
+                    ),
+                  );
                 },
               ),
             ],
