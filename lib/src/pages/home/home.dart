@@ -319,12 +319,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(
                   height: 60,
-                ),
-                // Carousel(
-                //   title: 'Mais populares',
-                //   api: mostPopularApi,
-                //   imgPath: imgPath,
-                // ),
+                )
               ],
             ),
           ),

@@ -89,7 +89,7 @@ void modalBottomSheet(context, item, banner) {
                                       ),
                                       iconSize: 24,
                                       onPressed: () {
-                                        print('fechado');
+                                        Navigator.pop(context);
                                       },
                                     ),
                                   ],
@@ -240,7 +240,8 @@ void modalBottomSheet(context, item, banner) {
                   Expanded(
                     flex: 1,
                     child: GestureDetector(
-                      onTap: () => print('oi'),
+                      onTap: () =>
+                          Navigator.pushNamed(context, '/detailedItem'),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Container(
