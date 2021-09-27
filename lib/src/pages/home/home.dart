@@ -88,10 +88,13 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         controller: scrollController,
         child: Flex(direction: Axis.horizontal, children: [
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
                   width: size.width,
@@ -119,7 +122,7 @@ class _HomePageState extends State<HomePage> {
 
                                           return Center(
                                             child: CircularProgressIndicator(
-                                              color: Colors.blueAccent,
+                                              color: Color(0xFFFE0000),
                                             ),
                                           );
                                         },
@@ -132,19 +135,17 @@ class _HomePageState extends State<HomePage> {
                                       height: size.height,
                                       width: size.width,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          gradient: LinearGradient(
-                                              begin: FractionalOffset.topCenter,
-                                              end:
-                                                  FractionalOffset.bottomCenter,
-                                              colors: [
-                                                Colors.grey.withOpacity(0.0),
-                                                Colors.black,
-                                              ],
-                                              stops: [
-                                                0.0,
-                                                1.0
-                                              ])),
+                                        color: Colors.white,
+                                        gradient: LinearGradient(
+                                          begin: FractionalOffset.topCenter,
+                                          end: FractionalOffset.bottomCenter,
+                                          colors: [
+                                            Colors.grey.withOpacity(0.0),
+                                            Colors.black,
+                                          ],
+                                          stops: [0.0, 1.0],
+                                        ),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -314,7 +315,16 @@ class _HomePageState extends State<HomePage> {
                 Carousel(
                   title: 'Mais populares',
                   api: mostPopularApi,
+                  imgPath: imgPath,
                 ),
+                SizedBox(
+                  height: 60,
+                ),
+                // Carousel(
+                //   title: 'Mais populares',
+                //   api: mostPopularApi,
+                //   imgPath: imgPath,
+                // ),
               ],
             ),
           ),
