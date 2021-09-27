@@ -268,7 +268,7 @@ class _HomePageState extends State<HomePage> {
                                             onPressed: () {},
                                             icon: SvgPicture.asset(
                                               'assets/icons/play.svg',
-                                              height: 14,
+                                              height: 1,
                                               width: 14,
                                               allowDrawingOutsideViewBox: true,
                                             ),
