@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
+import 'package:ui_clone_netflix/src/routes/router.dart';
 
 import 'provider/bottomNavigationBar.dart';
 import 'pages/index.dart';
 import 'pages/home/detailedItem.dart';
+
+import './routes/router.dart';
 
 class App extends StatelessWidget {
   @override
@@ -30,10 +33,7 @@ class App extends StatelessWidget {
         child: MaterialApp(
           title: 'Flutter Todo List',
           initialRoute: '/',
-          routes: {
-            '/': (context) => IndexPage(),
-            '/detailedItem': (context) => DatailedItem(),
-          },
+          onGenerateRoute: RouteGenerator.generateRoute,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             brightness: Brightness.light,
