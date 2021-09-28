@@ -20,14 +20,14 @@ class Carousel extends StatefulWidget {
 }
 
 class _CarouselState extends State<Carousel> {
-  late String banner = '';
+  late String imgPath = '';
   //FutureEmphasis
   late Future<ApiHomeData> futureSubject;
 
   @override
   void initState() {
     super.initState();
-    banner = widget.imgPath;
+    imgPath = widget.imgPath;
     futureSubject = homeDataFetch(widget.api);
   }
 
@@ -77,7 +77,7 @@ class _CarouselState extends State<Carousel> {
                                     children: [
                                       GestureDetector(
                                         onTap: () => modalBottomSheet(
-                                            context, item, banner),
+                                            context, item, imgPath),
                                         child: Container(
                                           margin: EdgeInsets.only(right: 6),
                                           width: 110,
@@ -85,7 +85,7 @@ class _CarouselState extends State<Carousel> {
                                           decoration: BoxDecoration(
                                             image: DecorationImage(
                                               image: NetworkImage(
-                                                '$banner${item['poster_path']}',
+                                                '$imgPath${item['poster_path']}',
                                               ),
                                             ),
                                             borderRadius:
