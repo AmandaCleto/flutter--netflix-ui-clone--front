@@ -240,8 +240,8 @@ void modalBottomSheet(context, item, banner) {
                   Expanded(
                     flex: 1,
                     child: GestureDetector(
-                      onTap: () =>
-                          Navigator.pushNamed(context, '/detailedItem'),
+                      onTap: () => Navigator.pushNamed(context, '/detaieldPage',
+                          arguments: 'hello there'),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Container(
