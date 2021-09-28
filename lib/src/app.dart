@@ -6,7 +6,7 @@ import 'package:ui_clone_netflix/src/routes/router.dart';
 
 import 'provider/bottomNavigationBar.dart';
 import 'pages/index.dart';
-import 'pages/home/detailedItem.dart';
+import 'pages/home/detailedItem/detailedItem.dart';
 
 import './routes/router.dart';
 

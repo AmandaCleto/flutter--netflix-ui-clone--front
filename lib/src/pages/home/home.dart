@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../data/homeEmphasisData.dart';
 
-import 'components/appBar.dart';
+import '../components/appBar.dart';
 import 'components/carousel.dart';
 
 class HomePage extends StatefulWidget {

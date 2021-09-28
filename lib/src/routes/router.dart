@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ui_clone_netflix/src/pages/home/detailedItem.dart';
+import 'package:ui_clone_netflix/src/pages/home/detailedItem/detailedItem.dart';
 import 'package:ui_clone_netflix/src/pages/index.dart';
 
 class RouteGenerator {
@@ -10,11 +10,10 @@ class RouteGenerator {
       case '/':
         return MaterialPageRoute(builder: (_) => IndexPage());
       case '/detaieldPage':
-        if (args is String)
-          return MaterialPageRoute(
-            builder: (_) => DetailedItem(data: args),
-          );
-        return _errorRoute();
+        return MaterialPageRoute(
+          builder: (_) => DetailedItem(data: args),
+        );
+
       default:
         return _errorRoute();
     }
