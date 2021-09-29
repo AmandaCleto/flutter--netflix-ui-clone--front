@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/homeData.dart';
+import '../../../data/detailedData.dart';
+import '../../../data/creditData.dart';
 import 'bottomSheet.dart';
 
 class Carousel extends StatefulWidget {
   final String title;
   final String imgPath;
-  final String api;
+  final String apiSubject;
+  final String apiBase;
+  final String language;
+  final String apiKey;
 
   const Carousel({
     Key? key,
     required this.title,
     required this.imgPath,
-    required this.api,
+    required this.apiSubject,
+    required this.apiBase,
+    required this.language,
+    required this.apiKey,
   }) : super(key: key);
 
   @override
@@ -21,14 +29,30 @@ class Carousel extends StatefulWidget {
 
 class _CarouselState extends State<Carousel> {
   late String imgPath = '';
-  //FutureEmphasis
+  late String detailedApi = '';
+  late String creditApi = '';
+
+  //Futures
   late Future<ApiHomeData> futureSubject;
+  late ApiDetailedData detailedData;
+  late ApiCreditData creditData;
 
   @override
   void initState() {
     super.initState();
     imgPath = widget.imgPath;
-    futureSubject = homeDataFetch(widget.api);
+    futureSubject = homeDataFetch(widget.apiSubject);
+  }
+
+  fetchDetailedApi(context, {required itemId}) async {
+    detailedApi = '${widget.apiBase}$itemId?${widget.apiKey}${widget.language}';
+    creditApi =
+        '${widget.apiBase}$itemId/credits?${widget.apiKey}${widget.language}';
+
+    detailedData = await detailedDataFetch(detailedApi);
+    creditData = await creditDataFetch(creditApi);
+
+    modalBottomSheet(context, imgPath, detailedData, creditData);
   }
 
   @override
@@ -76,8 +100,10 @@ class _CarouselState extends State<Carousel> {
                                   Row(
                                     children: [
                                       GestureDetector(
-                                        onTap: () => modalBottomSheet(
-                                            context, item, imgPath),
+                                        onTap: () {
+                                          fetchDetailedApi(context,
+                                              itemId: item['id']);
+                                        },
                                         child: Container(
                                           margin: EdgeInsets.only(right: 6),
                                           width: 110,

@@ -21,16 +21,14 @@ class _HomePageState extends State<HomePage> {
   double scrollAmountPrefferedSize = 120.0;
   double scrollAmountAppBar = 80.0;
 
+  String apiBase = 'https://api.themoviedb.org/3/movie/';
+  String apiKey = 'api_key=b08d03e485967449e3ee8777025070fd';
+  String language = '&language=pt-BR';
+
   String imgPath = 'https://image.tmdb.org/t/p/w500';
 
   //Futures
   late Future<ApiHomeEmphasisData> futureEmphasis;
-
-// https://api.themoviedb.org/3/movie/263115?api_key=b08d03e485967449e3ee8777025070fd
-
-  //APIS
-  String mostPopularApi =
-      'https://api.themoviedb.org/3/movie/popular?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
 
   @override
   void initState() {
@@ -79,6 +77,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
+    //APIS
+    String mostPopularApi = '${apiBase}popular?${apiKey}${language}';
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -316,8 +317,11 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Carousel(
                   title: 'Mais populares',
-                  api: mostPopularApi,
+                  apiSubject: mostPopularApi,
                   imgPath: imgPath,
+                  apiBase: apiBase,
+                  language: language,
+                  apiKey: apiKey,
                 ),
                 SizedBox(
                   height: 60,
