@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
-import 'components/appBar.dart';
+
 import '../../data/homeEmphasisData.dart';
+
+import '../components/appBar.dart';
+import 'components/carousel.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,12 +15,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late ScrollController scrollController;
   bool hideTopAppBar = true;
-  String teste = '';
+
+  late ScrollController scrollController;
+  double scrollAmountPrefferedSize = 120.0;
+  double scrollAmountAppBar = 80.0;
+
+  //parts the access the api url
+  String apiBase = 'https://api.themoviedb.org/3/';
+  String apiKey = 'api_key=b08d03e485967449e3ee8777025070fd';
+  String language = '&language=pt-BR';
+  String discover = 'discover/';
+  String getMovie = 'movie?';
+  String movieDetail = 'movie/';
+
   String imgPath = 'https://image.tmdb.org/t/p/w500';
 
-  late Future<ApiHomeEmphasisBanner> futureEmphasis;
+  //Futures
+  late Future<ApiHomeEmphasisData> futureEmphasis;
 
   @override
   void initState() {
@@ -27,9 +42,6 @@ class _HomePageState extends State<HomePage> {
 
     futureEmphasis = homeEmphasisDataFetch();
   }
-
-  double scrollAmountPrefferedSize = 120.0;
-  double scrollAmountAppBar = 80.0;
 
   _scrollListener() {
     if (scrollController.position.userScrollDirection ==
@@ -66,12 +78,17 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  bool showImageText = false;
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print('oi');
+
+    //APIS
+    String mostPopularApi =
+        '${apiBase}${movieDetail}popular?${apiKey}${language}';
+    String movieApi1 =
+        '${apiBase}${discover}${getMovie}${apiKey}${language}&page=10';
+    String movieApi2 =
+        '${apiBase}${discover}${getMovie}${apiKey}${language}&page=2';
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -83,17 +100,20 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         controller: scrollController,
         child: Flex(direction: Axis.horizontal, children: [
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
                   width: size.width,
                   height: 600,
                   child: Stack(
                     children: [
-                      FutureBuilder<ApiHomeEmphasisBanner>(
+                      FutureBuilder<ApiHomeEmphasisData>(
                         future: futureEmphasis,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
@@ -114,7 +134,7 @@ class _HomePageState extends State<HomePage> {
 
                                           return Center(
                                             child: CircularProgressIndicator(
-                                              color: Colors.blueAccent,
+                                              color: Color(0xFFFE0000),
                                             ),
                                           );
                                         },
@@ -127,19 +147,17 @@ class _HomePageState extends State<HomePage> {
                                       height: size.height,
                                       width: size.width,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          gradient: LinearGradient(
-                                              begin: FractionalOffset.topCenter,
-                                              end:
-                                                  FractionalOffset.bottomCenter,
-                                              colors: [
-                                                Colors.grey.withOpacity(0.0),
-                                                Colors.black,
-                                              ],
-                                              stops: [
-                                                0.0,
-                                                1.0
-                                              ])),
+                                        color: Colors.white,
+                                        gradient: LinearGradient(
+                                          begin: FractionalOffset.topCenter,
+                                          end: FractionalOffset.bottomCenter,
+                                          colors: [
+                                            Colors.grey.withOpacity(0.0),
+                                            Colors.black,
+                                          ],
+                                          stops: [0.0, 1.0],
+                                        ),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -262,7 +280,7 @@ class _HomePageState extends State<HomePage> {
                                             onPressed: () {},
                                             icon: SvgPicture.asset(
                                               'assets/icons/play.svg',
-                                              height: 14,
+                                              height: 1,
                                               width: 14,
                                               allowDrawingOutsideViewBox: true,
                                             ),
@@ -306,23 +324,41 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                Container(
-                  color: Colors.black,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Container(
-                      color: Colors.black,
-                      width: size.width,
-                      child: Text(
-                        'Só na Neflix',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
+                Carousel(
+                  title: 'Mais populares',
+                  apiSubject: mostPopularApi,
+                  imgPath: imgPath,
+                  apiBase: apiBase,
+                  movieDetail: movieDetail,
+                  language: language,
+                  apiKey: apiKey,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Carousel(
+                  title: 'Filmes incríveis',
+                  apiSubject: movieApi1,
+                  imgPath: imgPath,
+                  apiBase: apiBase,
+                  movieDetail: movieDetail,
+                  language: language,
+                  apiKey: apiKey,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Carousel(
+                  title: 'Filmes para assistir com os amigos',
+                  apiSubject: movieApi2,
+                  imgPath: imgPath,
+                  apiBase: apiBase,
+                  movieDetail: movieDetail,
+                  language: language,
+                  apiKey: apiKey,
+                ),
+                SizedBox(
+                  height: 30,
                 ),
               ],
             ),

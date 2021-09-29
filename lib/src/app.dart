@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
-// import 'provider/users.dart';
-import 'provider/bottomNavigationBar.dart';
+import 'package:ui_clone_netflix/src/routes/router.dart';
+
+import 'providers/bottomNavigationBar.dart';
 import 'pages/index.dart';
+import 'pages/home/detailedItem/detailedItem.dart';
+
+import './routes/router.dart';
 
 class App extends StatelessWidget {
   @override
@@ -29,9 +33,7 @@ class App extends StatelessWidget {
         child: MaterialApp(
           title: 'Flutter Todo List',
           initialRoute: '/',
-          routes: {
-            '/': (context) => IndexPage(title: 'Flutter Demo Home Page'),
-          },
+          onGenerateRoute: RouteGenerator.generateRoute,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             brightness: Brightness.light,
