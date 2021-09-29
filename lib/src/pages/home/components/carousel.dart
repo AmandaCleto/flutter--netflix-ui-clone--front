@@ -12,6 +12,7 @@ class Carousel extends StatefulWidget {
   final String apiBase;
   final String language;
   final String apiKey;
+  final String movieDetail;
 
   const Carousel({
     Key? key,
@@ -21,6 +22,7 @@ class Carousel extends StatefulWidget {
     required this.apiBase,
     required this.language,
     required this.apiKey,
+    required this.movieDetail,
   }) : super(key: key);
 
   @override
@@ -31,6 +33,7 @@ class _CarouselState extends State<Carousel> {
   late String imgPath = '';
   late String detailedApi = '';
   late String creditApi = '';
+  late String movieDetail = '';
 
   //Futures
   late Future<ApiHomeData> futureSubject;
@@ -45,9 +48,10 @@ class _CarouselState extends State<Carousel> {
   }
 
   fetchDetailedApi(context, {required itemId}) async {
-    detailedApi = '${widget.apiBase}$itemId?${widget.apiKey}${widget.language}';
+    detailedApi =
+        '${widget.apiBase}${widget.movieDetail}$itemId?${widget.apiKey}${widget.language}';
     creditApi =
-        '${widget.apiBase}$itemId/credits?${widget.apiKey}${widget.language}';
+        '${widget.apiBase}${widget.movieDetail}$itemId/credits?${widget.apiKey}${widget.language}';
 
     detailedData = await detailedDataFetch(detailedApi);
     creditData = await creditDataFetch(creditApi);
