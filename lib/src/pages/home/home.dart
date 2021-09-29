@@ -21,9 +21,13 @@ class _HomePageState extends State<HomePage> {
   double scrollAmountPrefferedSize = 120.0;
   double scrollAmountAppBar = 80.0;
 
-  String apiBase = 'https://api.themoviedb.org/3/movie/';
+  //parts the access the api url
+  String apiBase = 'https://api.themoviedb.org/3/';
   String apiKey = 'api_key=b08d03e485967449e3ee8777025070fd';
   String language = '&language=pt-BR';
+  String discover = 'discover/';
+  String getMovie = 'movie?';
+  String movieDetail = 'movie/';
 
   String imgPath = 'https://image.tmdb.org/t/p/w500';
 
@@ -79,7 +83,12 @@ class _HomePageState extends State<HomePage> {
     var size = MediaQuery.of(context).size;
 
     //APIS
-    String mostPopularApi = '${apiBase}popular?${apiKey}${language}';
+    String mostPopularApi =
+        '${apiBase}${movieDetail}popular?${apiKey}${language}';
+    String movieApi1 =
+        '${apiBase}${discover}${getMovie}${apiKey}${language}&page=10';
+    String movieApi2 =
+        '${apiBase}${discover}${getMovie}${apiKey}${language}&page=2';
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -320,12 +329,37 @@ class _HomePageState extends State<HomePage> {
                   apiSubject: mostPopularApi,
                   imgPath: imgPath,
                   apiBase: apiBase,
+                  movieDetail: movieDetail,
                   language: language,
                   apiKey: apiKey,
                 ),
                 SizedBox(
-                  height: 60,
-                )
+                  height: 30,
+                ),
+                Carousel(
+                  title: 'Filmes incríveis',
+                  apiSubject: movieApi1,
+                  imgPath: imgPath,
+                  apiBase: apiBase,
+                  movieDetail: movieDetail,
+                  language: language,
+                  apiKey: apiKey,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Carousel(
+                  title: 'Filmes para assistir com os amigos',
+                  apiSubject: movieApi2,
+                  imgPath: imgPath,
+                  apiBase: apiBase,
+                  movieDetail: movieDetail,
+                  language: language,
+                  apiKey: apiKey,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
               ],
             ),
           ),
