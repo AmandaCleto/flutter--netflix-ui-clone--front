@@ -14,6 +14,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+//https://api.themoviedb.org/3/movie/top_rated?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR&page=1
+
 class _HomePageState extends State<HomePage> {
   bool hideTopAppBar = true;
 
@@ -28,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   String discover = 'discover/';
   String getMovie = 'movie?';
   String movieDetail = 'movie/';
+  String topRated = 'top_rated?';
 
   String imgPath = 'https://image.tmdb.org/t/p/w500';
 

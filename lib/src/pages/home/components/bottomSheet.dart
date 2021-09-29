@@ -16,7 +16,7 @@ modalBottomSheet(context, imgPath, itemDetailed, itemCast) {
     context: context,
     builder: (BuildContext context) {
       return GestureDetector(
-        onTap: () => Navigator.pushNamed(context, '/detaieldPage',
+        onTap: () => Navigator.pushNamed(context, '/detailedPage',
             arguments: [itemDetailed, itemCast, imgPath]),
         child: Container(
           child: new Wrap(

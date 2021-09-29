@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../providers/bottomNavigationBar.dart';
 import 'components/bottomNavigationBar.dart';
-import 'comingSoon/comingSoon.dart';
 import 'home/home.dart';
 
 class IndexPage extends StatefulWidget {
@@ -26,7 +25,12 @@ class _HomePageState extends State<IndexPage> {
         index: provider.activeTab,
         children: [
           HomePage(),
-          ComingSoonPage(),
+          Center(
+            child: Text(
+              'Em breve',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
           Center(
             child: Text(
               'Dowloads',
