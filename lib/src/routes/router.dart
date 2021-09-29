@@ -9,7 +9,7 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => IndexPage());
-      case '/detaieldPage':
+      case '/detailedPage':
         return MaterialPageRoute(
           builder: (_) => DetailedItem(data: args),
         );
