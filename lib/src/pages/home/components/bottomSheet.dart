@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-void modalBottomSheet(context, item, imgPath) {
+import '../../../utils/durationTime.dart';
+
+modalBottomSheet(context, imgPath, itemDetailed, itemCast) {
   var size = MediaQuery.of(context).size;
+
+  // print(itemDetailed.poster_path);
   showModalBottomSheet(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0),
@@ -13,7 +17,7 @@ void modalBottomSheet(context, item, imgPath) {
     builder: (BuildContext context) {
       return GestureDetector(
         onTap: () => Navigator.pushNamed(context, '/detaieldPage',
-            arguments: [item, imgPath]),
+            arguments: [itemDetailed, itemCast, imgPath]),
         child: Container(
           child: new Wrap(
             children: <Widget>[
@@ -51,7 +55,7 @@ void modalBottomSheet(context, item, imgPath) {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  '$imgPath${item['poster_path']}',
+                                  '$imgPath${itemDetailed.poster_path}',
                                 ),
                               ),
                               borderRadius: BorderRadius.circular(4),
@@ -75,7 +79,7 @@ void modalBottomSheet(context, item, imgPath) {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          item['title'],
+                                          itemDetailed.title,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                             color: Colors.white,
@@ -116,7 +120,7 @@ void modalBottomSheet(context, item, imgPath) {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      item['release_date'].substring(0, 4),
+                                      itemDetailed.release_date.substring(0, 4),
                                       style: TextStyle(
                                         color: Color(0xFF8D8D8D),
                                         fontSize: 14,
@@ -126,12 +130,22 @@ void modalBottomSheet(context, item, imgPath) {
                                       width: 10,
                                     ),
                                     SvgPicture.asset(
-                                      item['adult']
+                                      itemDetailed.adult
                                           ? 'assets/icons/range-18.svg'
                                           : 'assets/icons/range-universal.svg',
                                       height: 20,
                                       width: 20,
                                       allowDrawingOutsideViewBox: true,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      durationToString(itemDetailed.runtime),
+                                      style: TextStyle(
+                                        color: Color(0xFF8D8D8D),
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -139,7 +153,7 @@ void modalBottomSheet(context, item, imgPath) {
                                   height: 10,
                                 ),
                                 Text(
-                                  item['overview'],
+                                  itemDetailed.overview,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 4,
                                   style: TextStyle(
