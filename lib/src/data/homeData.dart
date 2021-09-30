@@ -19,11 +19,16 @@ class ApiHomeData {
   }
 }
 
-Future<ApiHomeData> homeDataFetch(api) async {
+Future<ApiHomeData> homeDataFetch(api, limit) async {
   final response = await http.get(Uri.parse(api));
+  final cutted = convert.jsonDecode(response.body);
+
+  if (limit > 0) {
+    cutted['results'].removeRange(0, limit);
+  }
 
   if (response.statusCode == 200) {
-    return ApiHomeData.fromJson(convert.jsonDecode(response.body));
+    return ApiHomeData.fromJson(cutted);
   } else {
     throw Exception('Erro no carregar dados');
   }
