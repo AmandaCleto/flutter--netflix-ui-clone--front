@@ -125,7 +125,7 @@ class _CarouselState extends State<Carousel> {
                                             index: 2,
                                             child: Container(
                                               margin: EdgeInsets.only(
-                                                  right: widget.top10 ? 28 : 4),
+                                                  right: widget.top10 ? 28 : 6),
                                               width: 110,
                                               height: 160,
                                               decoration: BoxDecoration(
