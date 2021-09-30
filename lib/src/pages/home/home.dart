@@ -51,7 +51,6 @@ class _HomePageState extends State<HomePage> {
         ScrollDirection.forward) {
       setState(() {
         //descendo
-        // print(scrollController.position.pixels);
         if (scrollAmountPrefferedSize < 100) {
           scrollAmountPrefferedSize += 1.0;
         }
@@ -88,10 +87,9 @@ class _HomePageState extends State<HomePage> {
     //APIS
     String mostPopularApi =
         '${apiBase}${movieDetail}popular?${apiKey}${language}';
+    String top10Api = '${apiBase}${movieDetail}top_rated?${apiKey}${language}';
     String movieApi1 =
         '${apiBase}${discover}${getMovie}${apiKey}${language}&page=10';
-    String movieApi2 =
-        '${apiBase}${discover}${getMovie}${apiKey}${language}&page=2';
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -340,20 +338,22 @@ class _HomePageState extends State<HomePage> {
                   height: 30,
                 ),
                 Carousel(
-                  title: 'Filmes incríveis',
-                  apiSubject: movieApi1,
+                  title: 'TOP 10 de TODOS os Tempos',
+                  apiSubject: top10Api,
                   imgPath: imgPath,
                   apiBase: apiBase,
                   movieDetail: movieDetail,
                   language: language,
                   apiKey: apiKey,
+                  limit: 10,
+                  top10: true,
                 ),
                 SizedBox(
                   height: 30,
                 ),
                 Carousel(
-                  title: 'Filmes para assistir com os amigos',
-                  apiSubject: movieApi2,
+                  title: 'Filmes incríveis',
+                  apiSubject: movieApi1,
                   imgPath: imgPath,
                   apiBase: apiBase,
                   movieDetail: movieDetail,
