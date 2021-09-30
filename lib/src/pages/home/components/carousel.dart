@@ -4,16 +4,15 @@ import 'package:indexed/indexed.dart';
 import '../../../data/carrouselData.dart';
 import '../../../data/detailedData.dart';
 import '../../../data/creditData.dart';
+
+import '../../../utils/apiUrl.dart';
+
 import './bottomSheet.dart';
 
 class Carousel extends StatefulWidget {
   final String title;
   final String imgPath;
   final String apiSubject;
-  final String apiBase;
-  final String language;
-  final String apiKey;
-  final String movieDetail;
   final int limit;
   final bool top10;
 
@@ -22,10 +21,6 @@ class Carousel extends StatefulWidget {
     required this.title,
     required this.imgPath,
     required this.apiSubject,
-    required this.apiBase,
-    required this.language,
-    required this.apiKey,
-    required this.movieDetail,
     this.top10: false,
     this.limit: 0,
   }) : super(key: key);
@@ -38,7 +33,6 @@ class _CarouselState extends State<Carousel> {
   late String imgPath = '';
   late String detailedApi = '';
   late String creditApi = '';
-  late String movieDetail = '';
 
   //Futures
   late Future<ApicarrouselData> futureSubject;
@@ -55,11 +49,9 @@ class _CarouselState extends State<Carousel> {
     });
   }
 
-  fetchDetailedApi(context, {required itemId}) async {
-    detailedApi =
-        '${widget.apiBase}${widget.movieDetail}$itemId?${widget.apiKey}${widget.language}';
-    creditApi =
-        '${widget.apiBase}${widget.movieDetail}$itemId/credits?${widget.apiKey}${widget.language}';
+  openModalBottomSheet(context, {required itemId}) async {
+    detailedApi = apiDeepUrl(id: itemId, type: 'detailed');
+    creditApi = apiDeepUrl(id: itemId, type: 'cast');
 
     detailedData = await detailedDataFetch(detailedApi);
     creditData = await creditDataFetch(creditApi);
@@ -113,7 +105,7 @@ class _CarouselState extends State<Carousel> {
                                   index,
                                   GestureDetector(
                                     onTap: () {
-                                      fetchDetailedApi(context,
+                                      openModalBottomSheet(context,
                                           itemId: item['id']);
                                     },
                                     child: Container(
@@ -125,7 +117,8 @@ class _CarouselState extends State<Carousel> {
                                             index: 2,
                                             child: Container(
                                               margin: EdgeInsets.only(
-                                                  right: widget.top10 ? 28 : 6),
+                                                right: widget.top10 ? 28 : 6,
+                                              ),
                                               width: 110,
                                               height: 160,
                                               decoration: BoxDecoration(

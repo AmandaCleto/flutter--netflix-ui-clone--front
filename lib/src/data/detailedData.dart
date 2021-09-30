@@ -46,6 +46,6 @@ Future<ApiDetailedData> detailedDataFetch(api) async {
   if (response.statusCode == 200) {
     return ApiDetailedData.fromJson(convert.jsonDecode(response.body));
   } else {
-    throw Exception('Erro no carregar dados');
+    throw Exception('Erro no carregar os dados');
   }
 }
