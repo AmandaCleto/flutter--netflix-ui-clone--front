@@ -39,7 +39,6 @@ class _HomePageState extends State<HomePage> {
   String getMovie = 'movie?';
   String movieDetail = 'movie/';
   String topRated = 'top_rated?';
-
   String imgPath = 'https://image.tmdb.org/t/p/w500';
 
   //Futures
@@ -101,7 +100,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    //APIS
+    //carrousel apis
     String mostPopularApi =
         '${apiBase}${movieDetail}popular?${apiKey}${language}';
     String top10Api = '${apiBase}${movieDetail}top_rated?${apiKey}${language}';

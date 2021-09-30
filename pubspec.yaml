@@ -28,6 +28,7 @@ dependencies:
   http: ^0.13.3
   path_provider: ^2.0.4
   network_to_file_image: ^3.0.2
+  indexed: ^0.0.6
 
 dev_dependencies:
   flutter_test:
