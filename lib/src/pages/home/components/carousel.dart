@@ -13,6 +13,8 @@ class Carousel extends StatefulWidget {
   final String language;
   final String apiKey;
   final String movieDetail;
+  final int limit;
+  final bool top10;
 
   const Carousel({
     Key? key,
@@ -23,6 +25,8 @@ class Carousel extends StatefulWidget {
     required this.language,
     required this.apiKey,
     required this.movieDetail,
+    this.top10: false,
+    this.limit: 0,
   }) : super(key: key);
 
   @override
@@ -44,7 +48,12 @@ class _CarouselState extends State<Carousel> {
   void initState() {
     super.initState();
     imgPath = widget.imgPath;
-    futureSubject = homeDataFetch(widget.apiSubject);
+    futureSubject =
+        homeDataFetch(widget.apiSubject, widget.limit).then((value) {
+      var teste = value.results.sublist(0, 10);
+      // print(teste);
+      return value;
+    });
   }
 
   fetchDetailedApi(context, {required itemId}) async {
@@ -59,9 +68,12 @@ class _CarouselState extends State<Carousel> {
     modalBottomSheet(context, imgPath, detailedData, creditData);
   }
 
+  // List<dynamic> array = futureSubject.results;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     return Container(
       color: Colors.black,
       child: Padding(
@@ -91,6 +103,7 @@ class _CarouselState extends State<Carousel> {
                 future: futureSubject,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    print(snapshot.hasData);
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
@@ -98,17 +111,17 @@ class _CarouselState extends State<Carousel> {
                         child: Row(
                           children: snapshot.data!.results
                               .asMap()
-                              .map(
-                                (index, item) => MapEntry(
+                              .map((index, item) {
+                                return MapEntry(
                                   index,
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          fetchDetailedApi(context,
-                                              itemId: item['id']);
-                                        },
-                                        child: Container(
+                                  GestureDetector(
+                                    onTap: () {
+                                      fetchDetailedApi(context,
+                                          itemId: item['id']);
+                                    },
+                                    child: Stack(
+                                      children: [
+                                        Container(
                                           margin: EdgeInsets.only(right: 6),
                                           width: 110,
                                           height: 160,
@@ -122,11 +135,37 @@ class _CarouselState extends State<Carousel> {
                                                 BorderRadius.circular(4),
                                           ),
                                         ),
-                                      )
-                                    ],
+                                        widget.top10
+                                            ? Stack(
+                                                children: [
+                                                  Text(
+                                                    (index + 1).toString(),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 80,
+                                                      foreground: Paint()
+                                                        ..style =
+                                                            PaintingStyle.stroke
+                                                        ..strokeWidth = 6
+                                                        ..color = Colors.white,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    (index + 1).toString(),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 80,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            : Text(''),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
+                                );
+                              })
                               .values
                               .toList(),
                         ),
