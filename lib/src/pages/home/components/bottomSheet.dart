@@ -6,7 +6,6 @@ import '../../../utils/durationTime.dart';
 modalBottomSheet(context, imgPath, itemDetailed, itemCast) {
   var size = MediaQuery.of(context).size;
 
-  // print(itemDetailed.poster_path);
   showModalBottomSheet(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0),
