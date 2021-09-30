@@ -50,8 +50,6 @@ class _CarouselState extends State<Carousel> {
     imgPath = widget.imgPath;
     futureSubject =
         homeDataFetch(widget.apiSubject, widget.limit).then((value) {
-      var teste = value.results.sublist(0, 10);
-      // print(teste);
       return value;
     });
   }
@@ -67,8 +65,6 @@ class _CarouselState extends State<Carousel> {
 
     modalBottomSheet(context, imgPath, detailedData, creditData);
   }
-
-  // List<dynamic> array = futureSubject.results;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +99,6 @@ class _CarouselState extends State<Carousel> {
                 future: futureSubject,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    print(snapshot.hasData);
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
