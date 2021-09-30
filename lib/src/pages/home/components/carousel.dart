@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/homeData.dart';
+import '../../../data/carrouselData.dart';
 import '../../../data/detailedData.dart';
 import '../../../data/creditData.dart';
 import 'bottomSheet.dart';
@@ -40,7 +40,7 @@ class _CarouselState extends State<Carousel> {
   late String movieDetail = '';
 
   //Futures
-  late Future<ApiHomeData> futureSubject;
+  late Future<ApicarrouselData> futureSubject;
   late ApiDetailedData detailedData;
   late ApiCreditData creditData;
 
@@ -49,7 +49,7 @@ class _CarouselState extends State<Carousel> {
     super.initState();
     imgPath = widget.imgPath;
     futureSubject =
-        homeDataFetch(widget.apiSubject, widget.limit).then((value) {
+        carrouselDataFetch(widget.apiSubject, widget.limit).then((value) {
       return value;
     });
   }
@@ -95,7 +95,7 @@ class _CarouselState extends State<Carousel> {
               SizedBox(
                 height: 20,
               ),
-              FutureBuilder<ApiHomeData>(
+              FutureBuilder<ApicarrouselData>(
                 future: futureSubject,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
