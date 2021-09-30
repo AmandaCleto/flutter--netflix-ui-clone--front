@@ -22,6 +22,6 @@ Future<ApiCreditData> creditDataFetch(api) async {
   if (response.statusCode == 200) {
     return ApiCreditData.fromJson(convert.jsonDecode(response.body));
   } else {
-    throw Exception('Erro no carregar dados');
+    throw Exception('Erro no carregar os dados');
   }
 }

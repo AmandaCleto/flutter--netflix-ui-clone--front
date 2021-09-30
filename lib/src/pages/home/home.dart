@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../utils/apiUrl.dart';
+
 import '../../data/detailedData.dart';
 import '../../data/creditData.dart';
 
@@ -32,13 +34,6 @@ class _HomePageState extends State<HomePage> {
       'https://api.themoviedb.org/3/movie/635302-demon/credits?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
 
   //parts of access from the url api
-  String apiBase = 'https://api.themoviedb.org/3/';
-  String apiKey = 'api_key=b08d03e485967449e3ee8777025070fd';
-  String language = '&language=pt-BR';
-  String discover = 'discover/';
-  String getMovie = 'movie?';
-  String movieDetail = 'movie/';
-  String topRated = 'top_rated?';
   String imgPath = 'https://image.tmdb.org/t/p/w500';
 
   //Futures
@@ -101,11 +96,9 @@ class _HomePageState extends State<HomePage> {
     var size = MediaQuery.of(context).size;
 
     //carrousel apis
-    String mostPopularApi =
-        '${apiBase}${movieDetail}popular?${apiKey}${language}';
-    String top10Api = '${apiBase}${movieDetail}top_rated?${apiKey}${language}';
-    String movieApi1 =
-        '${apiBase}${discover}${getMovie}${apiKey}${language}&page=10';
+    String mostPopularApi = apiCarouselUrl(page: 1, type: 'popular');
+    String top10Api = apiCarouselUrl(page: 1, type: 'top_rated');
+    String mostPopularApi2 = apiCarouselUrl(page: 2, type: 'popular');
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -344,10 +337,6 @@ class _HomePageState extends State<HomePage> {
                   title: 'Mais populares',
                   apiSubject: mostPopularApi,
                   imgPath: imgPath,
-                  apiBase: apiBase,
-                  movieDetail: movieDetail,
-                  language: language,
-                  apiKey: apiKey,
                 ),
                 SizedBox(
                   height: 30,
@@ -356,10 +345,6 @@ class _HomePageState extends State<HomePage> {
                   title: 'TOP 10 de TODOS os Tempos',
                   apiSubject: top10Api,
                   imgPath: imgPath,
-                  apiBase: apiBase,
-                  movieDetail: movieDetail,
-                  language: language,
-                  apiKey: apiKey,
                   limit: 10,
                   top10: true,
                 ),
@@ -368,12 +353,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Carousel(
                   title: 'Filmes incríveis',
-                  apiSubject: movieApi1,
+                  apiSubject: mostPopularApi2,
                   imgPath: imgPath,
-                  apiBase: apiBase,
-                  movieDetail: movieDetail,
-                  language: language,
-                  apiKey: apiKey,
                 ),
                 SizedBox(
                   height: 30,

@@ -30,6 +30,6 @@ Future<ApicarrouselData> carrouselDataFetch(api, limit) async {
   if (response.statusCode == 200) {
     return ApicarrouselData.fromJson(cutted);
   } else {
-    throw Exception('Erro no carregar dados');
+    throw Exception('Erro no carregar os dados');
   }
 }
