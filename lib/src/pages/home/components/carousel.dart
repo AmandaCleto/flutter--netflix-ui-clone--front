@@ -221,7 +221,7 @@ class _CarouselState extends State<Carousel> {
                                                       ],
                                                     ),
                                                   )
-                                                : Text(''),
+                                                : SizedBox.shrink(),
                                           ),
                                         ],
                                       ),
