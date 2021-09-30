@@ -2,24 +2,24 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
-class ApiHomeData {
+class ApicarrouselData {
   final int page;
   final List results;
 
-  ApiHomeData({
+  ApicarrouselData({
     required this.page,
     required this.results,
   });
 
-  factory ApiHomeData.fromJson(Map<String, dynamic> json) {
-    return ApiHomeData(
+  factory ApicarrouselData.fromJson(Map<String, dynamic> json) {
+    return ApicarrouselData(
       page: json['page'],
       results: json['results'],
     );
   }
 }
 
-Future<ApiHomeData> homeDataFetch(api, limit) async {
+Future<ApicarrouselData> carrouselDataFetch(api, limit) async {
   final response = await http.get(Uri.parse(api));
   final cutted = convert.jsonDecode(response.body);
 
@@ -28,7 +28,7 @@ Future<ApiHomeData> homeDataFetch(api, limit) async {
   }
 
   if (response.statusCode == 200) {
-    return ApiHomeData.fromJson(cutted);
+    return ApicarrouselData.fromJson(cutted);
   } else {
     throw Exception('Erro no carregar dados');
   }

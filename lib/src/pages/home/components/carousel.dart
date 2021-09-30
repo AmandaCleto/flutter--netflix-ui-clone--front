@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:indexed/indexed.dart';
 
-import '../../../data/homeData.dart';
+import '../../../data/carrouselData.dart';
 import '../../../data/detailedData.dart';
 import '../../../data/creditData.dart';
-import 'bottomSheet.dart';
+import './bottomSheet.dart';
 
 class Carousel extends StatefulWidget {
   final String title;
@@ -40,7 +41,7 @@ class _CarouselState extends State<Carousel> {
   late String movieDetail = '';
 
   //Futures
-  late Future<ApiHomeData> futureSubject;
+  late Future<ApicarrouselData> futureSubject;
   late ApiDetailedData detailedData;
   late ApiCreditData creditData;
 
@@ -49,9 +50,7 @@ class _CarouselState extends State<Carousel> {
     super.initState();
     imgPath = widget.imgPath;
     futureSubject =
-        homeDataFetch(widget.apiSubject, widget.limit).then((value) {
-      var teste = value.results.sublist(0, 10);
-      // print(teste);
+        carrouselDataFetch(widget.apiSubject, widget.limit).then((value) {
       return value;
     });
   }
@@ -67,8 +66,6 @@ class _CarouselState extends State<Carousel> {
 
     modalBottomSheet(context, imgPath, detailedData, creditData);
   }
-
-  // List<dynamic> array = futureSubject.results;
 
   @override
   Widget build(BuildContext context) {
@@ -99,15 +96,15 @@ class _CarouselState extends State<Carousel> {
               SizedBox(
                 height: 20,
               ),
-              FutureBuilder<ApiHomeData>(
+              FutureBuilder<ApicarrouselData>(
                 future: futureSubject,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    print(snapshot.hasData);
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 4),
+                        padding:
+                            EdgeInsets.only(left: widget.top10 ? 20.0 : 6.0),
                         child: Row(
                           children: snapshot.data!.results
                               .asMap()
@@ -119,49 +116,122 @@ class _CarouselState extends State<Carousel> {
                                       fetchDetailedApi(context,
                                           itemId: item['id']);
                                     },
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(right: 6),
-                                          width: 110,
-                                          height: 160,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                '$imgPath${item['poster_path']}',
+                                    child: Container(
+                                      height: 180,
+                                      child: Indexer(
+                                        clipBehavior: Clip.none,
+                                        children: [
+                                          Indexed(
+                                            index: 2,
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                  right: widget.top10 ? 28 : 6),
+                                              width: 110,
+                                              height: 160,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                    '$imgPath${item['poster_path']}',
+                                                  ),
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
                                               ),
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(4),
                                           ),
-                                        ),
-                                        widget.top10
-                                            ? Stack(
-                                                children: [
-                                                  Text(
-                                                    (index + 1).toString(),
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontSize: 80,
-                                                      foreground: Paint()
-                                                        ..style =
-                                                            PaintingStyle.stroke
-                                                        ..strokeWidth = 6
-                                                        ..color = Colors.white,
+                                          index == 0
+                                              ? SizedBox.shrink()
+                                              : Indexed(
+                                                  index: 4,
+                                                  child: widget.top10
+                                                      ? Positioned(
+                                                          bottom: -10.0,
+                                                          left: -28.0,
+                                                          child: Stack(
+                                                            children: [
+                                                              Container(
+                                                                height:
+                                                                    size.height,
+                                                                width: 28,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  gradient:
+                                                                      LinearGradient(
+                                                                    begin: Alignment
+                                                                        .centerRight,
+                                                                    end:
+                                                                        Alignment(
+                                                                      0.01,
+                                                                      0.0,
+                                                                    ),
+                                                                    colors: [
+                                                                      Colors
+                                                                          .black
+                                                                          .withOpacity(
+                                                                              0.1),
+                                                                      Colors
+                                                                          .black,
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        )
+                                                      : SizedBox.shrink(),
+                                                ),
+                                          Indexed(
+                                            index: 3,
+                                            child: widget.top10
+                                                ? Positioned(
+                                                    bottom: -10.0,
+                                                    left: -16.0,
+                                                    child: Stack(
+                                                      children: [
+                                                        Text(
+                                                          (index + 1)
+                                                              .toString(),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            fontSize: 110,
+                                                            letterSpacing:
+                                                                -20.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            foreground: Paint()
+                                                              ..style =
+                                                                  PaintingStyle
+                                                                      .stroke
+                                                              ..strokeWidth = 4
+                                                              ..color = Colors
+                                                                  .grey
+                                                                  .shade500,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          (index + 1)
+                                                              .toString(),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            fontSize: 110,
+                                                            letterSpacing:
+                                                                -20.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Color(
+                                                                0xFF171717),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    (index + 1).toString(),
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontSize: 80,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            : Text(''),
-                                      ],
+                                                  )
+                                                : Text(''),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );
