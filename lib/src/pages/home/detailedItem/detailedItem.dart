@@ -344,15 +344,6 @@ class _DetailedItemState extends State<DetailedItem> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Divider(
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
                         SimilarRecommendations(
                           apiSubject: recommendationsData,
                           imgPath: imgPath,
