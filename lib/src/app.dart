@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:provider/provider.dart';
 import 'package:ui_clone_netflix/src/routes/router.dart';
 
 import 'providers/bottomNavigationBar.dart';
-import 'pages/index.dart';
-import 'pages/home/detailedItem/detailedItem.dart';
 
 import './routes/router.dart';
 

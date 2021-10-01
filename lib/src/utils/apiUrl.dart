@@ -8,11 +8,11 @@ String topRated = 'top_rated?';
 
 String apiCarouselUrl({required int page, required String type}) {
   if (type == 'popular') {
-    return '${apiBase}${movieDetail}popular?${apiKey}${language}&page=${page}';
+    return '$apiBase${movieDetail}popular?$apiKey$language&page=$page';
   }
 
   if (type == 'top_rated') {
-    return '${apiBase}${movieDetail}top_rated?${apiKey}${language}&page=${page}';
+    return '$apiBase${movieDetail}top_rated?$apiKey$language&page=$page';
   }
 
   return 'Não foi possível retornar a URL da API';
@@ -20,11 +20,11 @@ String apiCarouselUrl({required int page, required String type}) {
 
 String apiDeepUrl({required int id, required String type}) {
   if (type == 'detailed') {
-    return '${apiBase}${movieDetail}$id?${apiKey}${language}';
+    return '$apiBase$movieDetail$id?$apiKey$language';
   }
 
   if (type == 'cast') {
-    return '${apiBase}${movieDetail}$id/credits?${apiKey}${language}';
+    return '$apiBase$movieDetail$id/credits?$apiKey$language';
   }
 
   return 'Não foi possível retornar a URL da API';

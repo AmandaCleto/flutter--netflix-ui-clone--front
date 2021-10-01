@@ -43,20 +43,27 @@ class _CarouselState extends State<Carousel> {
   void initState() {
     super.initState();
     imgPath = widget.imgPath;
+
     futureSubject =
         carrouselDataFetch(widget.apiSubject, widget.limit).then((value) {
       return value;
     });
   }
 
-  openModalBottomSheet(context, {required itemId}) async {
+  openModalBottomSheet(context, {required itemId, required indexTop10}) async {
     detailedApi = apiDeepUrl(id: itemId, type: 'detailed');
     creditApi = apiDeepUrl(id: itemId, type: 'cast');
 
     detailedData = await detailedDataFetch(detailedApi);
     creditData = await creditDataFetch(creditApi);
 
-    modalBottomSheet(context, imgPath, detailedData, creditData);
+    modalBottomSheet(
+      context,
+      imgPath: imgPath,
+      itemDetailed: detailedData,
+      itemCast: creditData,
+      indexTop10: indexTop10,
+    );
   }
 
   @override
@@ -105,8 +112,12 @@ class _CarouselState extends State<Carousel> {
                                   index,
                                   GestureDetector(
                                     onTap: () {
-                                      openModalBottomSheet(context,
-                                          itemId: item['id']);
+                                      openModalBottomSheet(
+                                        context,
+                                        itemId: item['id'],
+                                        indexTop10:
+                                            widget.top10 ? index + 1 : -1,
+                                      );
                                     },
                                     child: Container(
                                       height: 180,

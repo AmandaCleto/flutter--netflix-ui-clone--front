@@ -54,7 +54,13 @@ class _HomePageState extends State<HomePage> {
     detailedData = await detailedDataFetch(emphasisApi);
     creditData = await creditDataFetch(emphasisApiCast);
 
-    modalBottomSheet(context, imgPath, detailedData, creditData);
+    modalBottomSheet(
+      context,
+      imgPath: imgPath,
+      itemDetailed: detailedData,
+      itemCast: creditData,
+      indexTop10: -1,
+    );
   }
 
   _scrollListener() {
