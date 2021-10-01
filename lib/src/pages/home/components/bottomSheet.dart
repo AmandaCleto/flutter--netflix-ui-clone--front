@@ -3,7 +3,13 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../utils/durationTime.dart';
 
-modalBottomSheet(context, imgPath, itemDetailed, itemCast) {
+modalBottomSheet(
+  context, {
+  required imgPath,
+  required itemDetailed,
+  required itemCast,
+  required indexTop10,
+}) {
   var size = MediaQuery.of(context).size;
 
   showModalBottomSheet(
@@ -16,7 +22,7 @@ modalBottomSheet(context, imgPath, itemDetailed, itemCast) {
     builder: (BuildContext context) {
       return GestureDetector(
         onTap: () => Navigator.pushNamed(context, '/detailedPage',
-            arguments: [itemDetailed, itemCast, imgPath]),
+            arguments: [itemDetailed, itemCast, imgPath, indexTop10]),
         child: Container(
           child: new Wrap(
             children: <Widget>[

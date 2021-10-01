@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,6 +22,7 @@ class _DetailedItemState extends State<DetailedItem> {
     var itemDetailed = widget.data[0];
     var itemCast = widget.data[1];
     var imgPath = widget.data[2];
+    var indexTop10 = widget.data[3];
 
     var castAuthors = '';
 
@@ -125,6 +127,34 @@ class _DetailedItemState extends State<DetailedItem> {
                         ),
                         SizedBox(
                           height: 10,
+                        ),
+                        indexTop10 >= 0
+                            ? Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/top10.svg',
+                                    height: 25,
+                                    width: 10,
+                                    allowDrawingOutsideViewBox: true,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'Brasil: top $indexTop10 de TODOS os tempos',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              )
+                            : SizedBox.shrink(),
+                        SizedBox(
+                          height: 20,
                         ),
                         SizedBox(
                           width: size.width,
