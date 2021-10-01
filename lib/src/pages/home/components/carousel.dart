@@ -128,7 +128,7 @@ class _CarouselState extends State<Carousel> {
                                             index: 2,
                                             child: Container(
                                               margin: EdgeInsets.only(
-                                                right: widget.top10 ? 28 : 6,
+                                                right: widget.top10 ? 26 : 6,
                                               ),
                                               width: 110,
                                               height: 160,
@@ -157,7 +157,7 @@ class _CarouselState extends State<Carousel> {
                                                               Container(
                                                                 height:
                                                                     size.height,
-                                                                width: 28,
+                                                                width: 26,
                                                                 decoration:
                                                                     BoxDecoration(
                                                                   gradient:
@@ -211,7 +211,7 @@ class _CarouselState extends State<Carousel> {
                                                               ..strokeWidth = 4
                                                               ..color = Colors
                                                                   .grey
-                                                                  .shade500,
+                                                                  .shade400,
                                                           ),
                                                         ),
                                                         Text(

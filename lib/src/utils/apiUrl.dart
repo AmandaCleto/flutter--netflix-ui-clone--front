@@ -15,6 +15,10 @@ String apiCarouselUrl({required int page, required String type}) {
     return '$apiBase${movieDetail}top_rated?$apiKey$language&page=$page';
   }
 
+  if (type == 'now_playing') {
+    return '$apiBase${movieDetail}now_playing?$apiKey$language&page=$page';
+  }
+
   return 'Não foi possível retornar a URL da API';
 }
 

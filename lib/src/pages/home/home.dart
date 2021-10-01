@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   late String creditApi = '';
 
   String emphasisApi =
-      'https://api.themoviedb.org/3/movie/635302-demon?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
+      'https://api.themoviedb.org/3/movie/453071-the-day-naruto-became-hokage?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
   String emphasisApiCast =
       'https://api.themoviedb.org/3/movie/635302-demon/credits?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
 
@@ -102,9 +102,10 @@ class _HomePageState extends State<HomePage> {
     var size = MediaQuery.of(context).size;
 
     //carrousel apis
+    String watchAgainApi = apiCarouselUrl(page: 20, type: 'popular');
     String mostPopularApi = apiCarouselUrl(page: 1, type: 'popular');
     String top10Api = apiCarouselUrl(page: 1, type: 'top_rated');
-    String mostPopularApi2 = apiCarouselUrl(page: 2, type: 'popular');
+    String nowPlayingApi = apiCarouselUrl(page: 2, type: 'now_playing');
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -194,8 +195,8 @@ class _HomePageState extends State<HomePage> {
                                                 fontSize: 36,
                                                 foreground: Paint()
                                                   ..style = PaintingStyle.stroke
-                                                  ..strokeWidth = 6
-                                                  ..color = Color(0xFF445767),
+                                                  ..strokeWidth = 1
+                                                  ..color = Color(0xFFFF7F01),
                                               ),
                                             ),
                                             Text(
@@ -340,6 +341,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Carousel(
+                  title: 'Assistir novamente',
+                  apiSubject: watchAgainApi,
+                  imgPath: imgPath,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Carousel(
                   title: 'Mais populares',
                   apiSubject: mostPopularApi,
                   imgPath: imgPath,
@@ -358,12 +367,12 @@ class _HomePageState extends State<HomePage> {
                   height: 30,
                 ),
                 Carousel(
-                  title: 'Filmes incríveis',
-                  apiSubject: mostPopularApi2,
+                  title: 'Estão assistindo agora',
+                  apiSubject: nowPlayingApi,
                   imgPath: imgPath,
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
               ],
             ),
