@@ -7,7 +7,7 @@ modalBottomSheet(
   context, {
   required imgPath,
   required itemDetailed,
-  required itemCast,
+  required itemCredit,
   required indexTop10,
 }) {
   var size = MediaQuery.of(context).size;
@@ -22,7 +22,7 @@ modalBottomSheet(
     builder: (BuildContext context) {
       return GestureDetector(
         onTap: () => Navigator.pushNamed(context, '/detailedPage',
-            arguments: [itemDetailed, itemCast, imgPath, indexTop10]),
+            arguments: [itemDetailed, itemCredit, imgPath, indexTop10]),
         child: Container(
           child: new Wrap(
             children: <Widget>[

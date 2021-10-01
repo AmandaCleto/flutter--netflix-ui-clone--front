@@ -4,14 +4,17 @@ import 'dart:async';
 
 class ApiCreditData {
   final List cast;
+  final List crew;
 
   ApiCreditData({
     required this.cast,
+    required this.crew,
   });
 
   factory ApiCreditData.fromJson(Map<String, dynamic> json) {
     return ApiCreditData(
       cast: json['cast'],
+      crew: json['crew'],
     );
   }
 }

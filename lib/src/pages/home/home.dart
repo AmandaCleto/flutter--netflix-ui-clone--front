@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
 
   String emphasisApi =
       'https://api.themoviedb.org/3/movie/453071-the-day-naruto-became-hokage?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
-  String emphasisApiCast =
+  String emphasisApiCredit =
       'https://api.themoviedb.org/3/movie/635302-demon/credits?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
 
   //parts of access from the url api
@@ -52,13 +52,13 @@ class _HomePageState extends State<HomePage> {
 
   fetchDetailedApi(context) async {
     detailedData = await detailedDataFetch(emphasisApi);
-    creditData = await creditDataFetch(emphasisApiCast);
+    creditData = await creditDataFetch(emphasisApiCredit);
 
     modalBottomSheet(
       context,
       imgPath: imgPath,
       itemDetailed: detailedData,
-      itemCast: creditData,
+      itemCredit: creditData,
       indexTop10: -1,
     );
   }

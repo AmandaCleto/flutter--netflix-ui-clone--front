@@ -27,7 +27,7 @@ String apiDeepUrl({required int id, required String type}) {
     return '$apiBase$movieDetail$id?$apiKey$language';
   }
 
-  if (type == 'cast') {
+  if (type == 'credit') {
     return '$apiBase$movieDetail$id/credits?$apiKey$language';
   }
 
