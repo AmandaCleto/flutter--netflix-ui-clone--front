@@ -33,7 +33,7 @@ class _HomePageState extends State<IndexPage> {
           ),
           Center(
             child: Text(
-              'Dowloads',
+              'Downloads',
               style: TextStyle(color: Colors.white),
             ),
           ),

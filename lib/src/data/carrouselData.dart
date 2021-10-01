@@ -2,33 +2,33 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
-class ApicarrouselData {
+class ApiCarrouselData {
   final int page;
   final List results;
 
-  ApicarrouselData({
+  ApiCarrouselData({
     required this.page,
     required this.results,
   });
 
-  factory ApicarrouselData.fromJson(Map<String, dynamic> json) {
-    return ApicarrouselData(
+  factory ApiCarrouselData.fromJson(Map<String, dynamic> json) {
+    return ApiCarrouselData(
       page: json['page'],
       results: json['results'],
     );
   }
 }
 
-Future<ApicarrouselData> carrouselDataFetch(api, limit) async {
+Future<ApiCarrouselData> carrouselDataFetch(api, remove) async {
   final response = await http.get(Uri.parse(api));
-  final cutted = convert.jsonDecode(response.body);
+  final cut = convert.jsonDecode(response.body);
 
-  if (limit > 0) {
-    cutted['results'].removeRange(0, limit);
+  if (remove > 0) {
+    cut['results'].removeRange(0, remove);
   }
 
   if (response.statusCode == 200) {
-    return ApicarrouselData.fromJson(cutted);
+    return ApiCarrouselData.fromJson(cut);
   } else {
     throw Exception('Erro no carregar os dados');
   }

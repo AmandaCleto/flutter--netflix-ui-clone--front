@@ -23,10 +23,20 @@ class RouteGenerator {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('error'),
+          title: Text(
+            'error',
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
         ),
         body: Center(
-          child: Text('error'),
+          child: Text(
+            'error',
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
         ),
       );
     });

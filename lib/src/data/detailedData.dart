@@ -12,6 +12,7 @@ class ApiDetailedData {
   final String backdrop_path;
   final int runtime;
   final double vote_average;
+  final int id;
 
   ApiDetailedData({
     required this.adult,
@@ -23,6 +24,7 @@ class ApiDetailedData {
     required this.backdrop_path,
     required this.runtime,
     required this.vote_average,
+    required this.id,
   });
 
   factory ApiDetailedData.fromJson(Map<String, dynamic> json) {
@@ -36,6 +38,7 @@ class ApiDetailedData {
       backdrop_path: json['backdrop_path'],
       runtime: json['runtime'],
       vote_average: json['vote_average'],
+      id: json['id'],
     );
   }
 }

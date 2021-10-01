@@ -21,7 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool hideTopAppBar = true;
   late ScrollController scrollController;
-  double scrollAmountPrefferedSize = 120.0;
+  double scrollAmountProfferedSize = 120.0;
   double scrollAmountAppBar = 80.0;
 
   //Apis
@@ -68,8 +68,8 @@ class _HomePageState extends State<HomePage> {
         ScrollDirection.forward) {
       setState(() {
         //descendo
-        if (scrollAmountPrefferedSize < 100) {
-          scrollAmountPrefferedSize += 1.0;
+        if (scrollAmountProfferedSize < 100) {
+          scrollAmountProfferedSize += 1.0;
         }
 
         if (scrollAmountAppBar < 60) {
@@ -84,8 +84,8 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         //subindo
 
-        if (scrollAmountPrefferedSize > 60) {
-          scrollAmountPrefferedSize -= 1.0;
+        if (scrollAmountProfferedSize > 60) {
+          scrollAmountProfferedSize -= 1.0;
         }
 
         if (scrollAmountAppBar > 10) {
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(scrollAmountPrefferedSize),
+        preferredSize: Size.fromHeight(scrollAmountProfferedSize),
         child: CustomAppBar(
           scrollOffset: 200,
           scrollAmountAppBar: scrollAmountAppBar,
@@ -351,7 +351,7 @@ class _HomePageState extends State<HomePage> {
                   title: 'TOP 10 de TODOS os Tempos',
                   apiSubject: top10Api,
                   imgPath: imgPath,
-                  limit: 10,
+                  remove: 10,
                   top10: true,
                 ),
                 SizedBox(

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class DetaieldItemAppBar extends StatefulWidget {
-  const DetaieldItemAppBar({
+class DetailedItemAppBar extends StatefulWidget {
+  const DetailedItemAppBar({
     Key? key,
   }) : super(key: key);
 
   @override
-  _DetaieldItemAppBarState createState() => _DetaieldItemAppBarState();
+  _DetailedItemAppBarState createState() => _DetailedItemAppBarState();
 }
 
-class _DetaieldItemAppBarState extends State<DetaieldItemAppBar> {
+class _DetailedItemAppBarState extends State<DetailedItemAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(

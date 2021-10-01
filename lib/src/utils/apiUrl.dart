@@ -29,3 +29,7 @@ String apiDeepUrl({required int id, required String type}) {
 
   return 'Não foi possível retornar a URL da API';
 }
+
+String apiRecommendationUrl({required int id}) {
+  return '$apiBase$movieDetail$id/similar?$apiKey$language';
+}
