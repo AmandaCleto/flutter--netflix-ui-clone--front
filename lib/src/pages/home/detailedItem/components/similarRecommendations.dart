@@ -95,7 +95,7 @@ class _SimilarRecommendationsState extends State<SimilarRecommendations> {
               if (snapshot.hasData) {
                 return Center(
                   child: Wrap(
-                    runSpacing: 10,
+                    runSpacing: 6,
                     spacing: 4,
                     children: snapshot.data!.results
                         .asMap()
