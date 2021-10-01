@@ -52,7 +52,7 @@ class _CarouselState extends State<Carousel> {
 
   openModalBottomSheet(context, {required itemId, required indexTop10}) async {
     detailedApi = apiDeepUrl(id: itemId, type: 'detailed');
-    creditApi = apiDeepUrl(id: itemId, type: 'cast');
+    creditApi = apiDeepUrl(id: itemId, type: 'credit');
 
     detailedData = await detailedDataFetch(detailedApi);
     creditData = await creditDataFetch(creditApi);
@@ -61,7 +61,7 @@ class _CarouselState extends State<Carousel> {
       context,
       imgPath: imgPath,
       itemDetailed: detailedData,
-      itemCast: creditData,
+      itemCredit: creditData,
       indexTop10: indexTop10,
     );
   }
