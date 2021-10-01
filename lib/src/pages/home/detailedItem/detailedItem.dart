@@ -1,12 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../utils/durationTime.dart';
 import '../../../utils/relevant.dart';
+import '../../../utils/apiUrl.dart';
 
-import 'components/detaieldItemAppBar.dart';
+import 'components/detailedItemAppBar.dart';
+import 'components/similarRecommendations.dart';
 
 class DetailedItem extends StatefulWidget {
   final dynamic data;
@@ -30,12 +31,14 @@ class _DetailedItemState extends State<DetailedItem> {
       castAuthors += '${index['name']}, ';
     }
 
+    String recommendationsData = apiRecommendationUrl(id: itemDetailed.id);
+
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
-        child: DetaieldItemAppBar(),
+        child: DetailedItemAppBar(),
       ),
       body: Container(
         color: Colors.black,
@@ -143,12 +146,10 @@ class _DetailedItemState extends State<DetailedItem> {
                                   Text(
                                     'Brasil: top $indexTop10 de TODOS os tempos',
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ],
                               )
@@ -348,13 +349,21 @@ class _DetailedItemState extends State<DetailedItem> {
                         ),
                         Divider(
                           color: Colors.white,
-                        )
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        SimilarRecommendations(
+                          apiSubject: recommendationsData,
+                          imgPath: imgPath,
+                          remove: 8,
+                        ),
                       ],
                     ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -13,7 +13,7 @@ class Carousel extends StatefulWidget {
   final String title;
   final String imgPath;
   final String apiSubject;
-  final int limit;
+  final int remove;
   final bool top10;
 
   const Carousel({
@@ -22,7 +22,7 @@ class Carousel extends StatefulWidget {
     required this.imgPath,
     required this.apiSubject,
     this.top10: false,
-    this.limit: 0,
+    this.remove: 0,
   }) : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class _CarouselState extends State<Carousel> {
   late String creditApi = '';
 
   //Futures
-  late Future<ApicarrouselData> futureSubject;
+  late Future<ApiCarrouselData> futureSubject;
   late ApiDetailedData detailedData;
   late ApiCreditData creditData;
 
@@ -45,7 +45,7 @@ class _CarouselState extends State<Carousel> {
     imgPath = widget.imgPath;
 
     futureSubject =
-        carrouselDataFetch(widget.apiSubject, widget.limit).then((value) {
+        carrouselDataFetch(widget.apiSubject, widget.remove).then((value) {
       return value;
     });
   }
@@ -95,7 +95,7 @@ class _CarouselState extends State<Carousel> {
               SizedBox(
                 height: 20,
               ),
-              FutureBuilder<ApicarrouselData>(
+              FutureBuilder<ApiCarrouselData>(
                 future: futureSubject,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
