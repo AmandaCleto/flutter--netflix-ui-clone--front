@@ -8,7 +8,7 @@ modalBottomSheet(
   required imgPath,
   required itemDetailed,
   required itemCredit,
-  required indexTop10,
+  indexTop10 = -1,
 }) {
   var size = MediaQuery.of(context).size;
 
@@ -58,11 +58,13 @@ modalBottomSheet(
                             height: 140,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                  '$imgPath${itemDetailed.poster_path}',
-                                ),
-                              ),
+                                  fit: BoxFit.cover,
+                                  image: (itemDetailed.backdrop_path != '')
+                                      ? NetworkImage(
+                                          '$imgPath${itemDetailed.backdrop_path}',
+                                        )
+                                      : AssetImage('assets/default-movie.png')
+                                          as ImageProvider),
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),

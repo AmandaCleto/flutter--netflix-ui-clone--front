@@ -135,9 +135,16 @@ class _CarouselState extends State<Carousel> {
                                               decoration: BoxDecoration(
                                                 image: DecorationImage(
                                                   fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                    '$imgPath${item['poster_path']}',
-                                                  ),
+                                                  image: ((item['poster_path'] !=
+                                                              '' &&
+                                                          item['poster_path'] !=
+                                                              null))
+                                                      ? NetworkImage(
+                                                          '$imgPath${item['poster_path']}',
+                                                        )
+                                                      : AssetImage(
+                                                              'assets/default-movie.png')
+                                                          as ImageProvider,
                                                 ),
                                                 borderRadius:
                                                     BorderRadius.circular(6),

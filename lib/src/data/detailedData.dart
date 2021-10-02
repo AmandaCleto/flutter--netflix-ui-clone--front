@@ -29,16 +29,16 @@ class ApiDetailedData {
 
   factory ApiDetailedData.fromJson(Map<String, dynamic> json) {
     return ApiDetailedData(
-      adult: json['adult'],
-      genres: json['genres'],
-      overview: json['overview'],
-      title: json['title'],
-      release_date: json['release_date'],
-      poster_path: json['poster_path'],
-      backdrop_path: json['backdrop_path'],
-      runtime: json['runtime'],
-      vote_average: json['vote_average'],
-      id: json['id'],
+      adult: json['adult'] == null ? false : json['adult'],
+      genres: json['genres'] == null ? [] : json['genres'],
+      overview: json['overview'] == null ? '' : json['overview'],
+      title: json['title'] == null ? '' : json['title'],
+      release_date: json['release_date'] == null ? '' : json['release_date'],
+      poster_path: json['poster_path'] == null ? '' : json['poster_path'],
+      backdrop_path: json['backdrop_path'] == null ? '' : json['backdrop_path'],
+      runtime: json['runtime'] == null ? 0 : json['runtime'],
+      vote_average: json['vote_average'] == null ? 0.0 : json['vote_average'],
+      id: json['id'] == null ? 0 : json['id'],
     );
   }
 }

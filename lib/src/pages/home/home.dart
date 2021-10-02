@@ -24,10 +24,6 @@ class _HomePageState extends State<HomePage> {
   double scrollAmountProfferedSize = 120.0;
   double scrollAmountAppBar = 80.0;
 
-  //Apis
-  late String detailedApi = '';
-  late String creditApi = '';
-
   String emphasisApi =
       'https://api.themoviedb.org/3/movie/453071-the-day-naruto-became-hokage?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
   String emphasisApiCredit =

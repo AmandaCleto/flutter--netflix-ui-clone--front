@@ -52,8 +52,13 @@ class _DetailedItemState extends State<DetailedItem> {
                 height: 200,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image:
-                        NetworkImage('$imgPath${itemDetailed.backdrop_path}'),
+                    image: ((itemDetailed.backdrop_path != '' &&
+                            itemDetailed.backdrop_path != null))
+                        ? NetworkImage(
+                            '$imgPath${itemDetailed.backdrop_path}',
+                          )
+                        : AssetImage('assets/default-movie-detail.png')
+                            as ImageProvider,
                     fit: BoxFit.cover,
                   ),
                 ),
