@@ -252,7 +252,7 @@ class _DetailedItemState extends State<DetailedItem> {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
-                                  height: 1.2,
+                                  height: 1.1,
                                   fontSize: 12,
                                 ),
                               ),
@@ -292,7 +292,7 @@ class _DetailedItemState extends State<DetailedItem> {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
-                                  height: 1.2,
+                                  height: 1.1,
                                   fontSize: 12,
                                 ),
                               ),
