@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../utils/durationTime.dart';
 import '../../../utils/relevant.dart';
 import '../../../utils/apiUrl.dart';
+import '../../../utils/getNamesFromSubject.dart';
 
 import 'components/detailedItemAppBar.dart';
 import 'components/similarRecommendations.dart';
@@ -26,33 +27,8 @@ class _DetailedItemState extends State<DetailedItem> {
     var imgPath = widget.data[2];
     var indexTop10 = widget.data[3];
 
-    var castAuthors = '';
-    var castDirectors = '';
-
-    List amountDirectors = [];
-    // var amountAuthors = 0;
-
-    for (final index in itemCast) {
-      if (index['known_for_department'] == 'Acting')
-        castAuthors += '${index['name']}, ';
-    }
-
-    //directors
-
-    itemCrew.asMap().forEach((index, value) => {
-          if (value['known_for_department'] == 'Directing')
-            amountDirectors += [value["name"]]
-        });
-
-    var distinctAmountDirectors = amountDirectors.toSet().toList();
-
-    // print(distinctAmountDirectors.length);
-    distinctAmountDirectors.asMap().forEach((index, value) => {
-          castDirectors += '$value, ',
-          index == distinctAmountDirectors.length
-              ? castDirectors = ' 1111 '
-              : castDirectors = ' *****',
-        });
+    var castAuthors = getNames(itemList: itemCast, subject: 'Acting');
+    String castDirectors = getNames(itemList: itemCrew, subject: 'Directing');
 
     String recommendationsData = apiRecommendationUrl(id: itemDetailed.id);
 
