@@ -128,6 +128,10 @@ class _SimilarRecommendationsState extends State<SimilarRecommendations> {
                             index,
                             GestureDetector(
                               onTap: () {
+                                print((item['poster_path'] != null &&
+                                        item['poster_path'] != '')
+                                    ? 'oi'
+                                    : 'xau');
                                 openModalBottomSheet(
                                   context,
                                   itemId: item['id'],
@@ -140,9 +144,13 @@ class _SimilarRecommendationsState extends State<SimilarRecommendations> {
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                      '$imgPath${item['poster_path']}',
-                                    ),
+                                    image: ((item['poster_path'] != null &&
+                                            item['poster_path'] != ''))
+                                        ? NetworkImage(
+                                            '$imgPath${item['poster_path']}',
+                                          )
+                                        : AssetImage('assets/default-movie.png')
+                                            as ImageProvider,
                                   ),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
