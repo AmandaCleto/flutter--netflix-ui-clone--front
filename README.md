@@ -31,6 +31,29 @@ The project should follow:
 
 <br>
 
+## 🚀 How to execute the project:
+To run and view the project, you will need to follow the next steps.
+  * **Create an account** in https://www.themoviedb.org/ to get your **API KEY**;
+  * **Create an .env file** at the root directory of the project, following the .env_example file and **paste your API KEY into the variable API_KEY**;
+  * Run the command to install the project dependencies.
+   ```sh
+   flutter run
+   ```
+
+
+
+<br>
+
+## 🌐 Links:
+***TMDB: The Movie DB:***<br>
+[<ins>https://www.themoviedb.org/</ins>](https://www.themoviedb.org/)
+
+***Flutter:***<br>
+[<ins>https://flutter.dev/</ins>](https://flutter.dev/)
+
+
+
+<br>
 
 
 ## License
