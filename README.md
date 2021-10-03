@@ -34,6 +34,7 @@ The project should follow:
 
 ## 🚀 How to execute the project:
 To run and view the project, you will need to follow the next steps.
+  * First you **must have Flutter installed in your machine**, to know more about this, see the doc: https://flutter.dev/docs/get-started/install;
   * **Create an account** in https://www.themoviedb.org/ to get your **API KEY**;
   * **Create an .env file** at the root directory of the project, following the .env_example file and **paste your API KEY into the variable API_KEY**;
   * Run the command to install the project dependencies.
