@@ -4,30 +4,25 @@ import 'package:indexed/indexed.dart';
 import '../../../data/carrouselData.dart';
 import '../../../data/detailedData.dart';
 import '../../../data/creditData.dart';
+
+import '../../../config/config.dart';
+
+import '../../../utils/apiUrl.dart';
+
 import './bottomSheet.dart';
 
 class Carousel extends StatefulWidget {
   final String title;
-  final String imgPath;
   final String apiSubject;
-  final String apiBase;
-  final String language;
-  final String apiKey;
-  final String movieDetail;
-  final int limit;
+  final int remove;
   final bool top10;
 
   const Carousel({
     Key? key,
     required this.title,
-    required this.imgPath,
     required this.apiSubject,
-    required this.apiBase,
-    required this.language,
-    required this.apiKey,
-    required this.movieDetail,
     this.top10: false,
-    this.limit: 0,
+    this.remove: 0,
   }) : super(key: key);
 
   @override
@@ -35,36 +30,39 @@ class Carousel extends StatefulWidget {
 }
 
 class _CarouselState extends State<Carousel> {
-  late String imgPath = '';
+  late String IMAGE_PATH = '';
   late String detailedApi = '';
   late String creditApi = '';
-  late String movieDetail = '';
 
   //Futures
-  late Future<ApicarrouselData> futureSubject;
+  late Future<ApiCarrouselData> futureSubject;
   late ApiDetailedData detailedData;
   late ApiCreditData creditData;
 
   @override
   void initState() {
     super.initState();
-    imgPath = widget.imgPath;
+    IMAGE_PATH = Config.getApiKey('IMAGE_PATH');
+
     futureSubject =
-        carrouselDataFetch(widget.apiSubject, widget.limit).then((value) {
+        carrouselDataFetch(widget.apiSubject, widget.remove).then((value) {
       return value;
     });
   }
 
-  fetchDetailedApi(context, {required itemId}) async {
-    detailedApi =
-        '${widget.apiBase}${widget.movieDetail}$itemId?${widget.apiKey}${widget.language}';
-    creditApi =
-        '${widget.apiBase}${widget.movieDetail}$itemId/credits?${widget.apiKey}${widget.language}';
+  openModalBottomSheet(context, {required itemId, required indexTop10}) async {
+    detailedApi = apiDeepUrl(id: itemId, type: 'detailed');
+    creditApi = apiDeepUrl(id: itemId, type: 'credit');
 
     detailedData = await detailedDataFetch(detailedApi);
     creditData = await creditDataFetch(creditApi);
 
-    modalBottomSheet(context, imgPath, detailedData, creditData);
+    modalBottomSheet(
+      context,
+      itemDetailed: detailedData,
+      itemCredit: creditData,
+      indexTop10: indexTop10,
+    );
   }
 
   @override
@@ -96,7 +94,7 @@ class _CarouselState extends State<Carousel> {
               SizedBox(
                 height: 20,
               ),
-              FutureBuilder<ApicarrouselData>(
+              FutureBuilder<ApiCarrouselData>(
                 future: futureSubject,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -113,8 +111,12 @@ class _CarouselState extends State<Carousel> {
                                   index,
                                   GestureDetector(
                                     onTap: () {
-                                      fetchDetailedApi(context,
-                                          itemId: item['id']);
+                                      openModalBottomSheet(
+                                        context,
+                                        itemId: item['id'],
+                                        indexTop10:
+                                            widget.top10 ? index + 1 : -1,
+                                      );
                                     },
                                     child: Container(
                                       height: 180,
@@ -125,15 +127,23 @@ class _CarouselState extends State<Carousel> {
                                             index: 2,
                                             child: Container(
                                               margin: EdgeInsets.only(
-                                                  right: widget.top10 ? 28 : 6),
+                                                right: widget.top10 ? 26 : 6,
+                                              ),
                                               width: 110,
                                               height: 160,
                                               decoration: BoxDecoration(
                                                 image: DecorationImage(
                                                   fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                    '$imgPath${item['poster_path']}',
-                                                  ),
+                                                  image: ((item['poster_path'] !=
+                                                              '' &&
+                                                          item['poster_path'] !=
+                                                              null))
+                                                      ? NetworkImage(
+                                                          '$IMAGE_PATH${item['poster_path']}',
+                                                        )
+                                                      : AssetImage(
+                                                              'assets/default-movie.png')
+                                                          as ImageProvider,
                                                 ),
                                                 borderRadius:
                                                     BorderRadius.circular(6),
@@ -153,7 +163,7 @@ class _CarouselState extends State<Carousel> {
                                                               Container(
                                                                 height:
                                                                     size.height,
-                                                                width: 28,
+                                                                width: 26,
                                                                 decoration:
                                                                     BoxDecoration(
                                                                   gradient:
@@ -207,7 +217,7 @@ class _CarouselState extends State<Carousel> {
                                                               ..strokeWidth = 4
                                                               ..color = Colors
                                                                   .grey
-                                                                  .shade500,
+                                                                  .shade400,
                                                           ),
                                                         ),
                                                         Text(
@@ -228,7 +238,7 @@ class _CarouselState extends State<Carousel> {
                                                       ],
                                                     ),
                                                   )
-                                                : Text(''),
+                                                : SizedBox.shrink(),
                                           ),
                                         ],
                                       ),
