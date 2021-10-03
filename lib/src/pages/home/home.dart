@@ -7,6 +7,8 @@ import '../../utils/apiUrl.dart';
 import '../../data/detailedData.dart';
 import '../../data/creditData.dart';
 
+import '../../config/config.dart';
+
 import '../components/appBar.dart';
 import './components/carousel.dart';
 import './components/bottomSheet.dart';
@@ -19,18 +21,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var API_KEY = '';
+  String emphasisBannerApi = '';
+  String emphasisBannerApiCredit = '';
+  String IMAGE_PATH = '';
+
   bool hideTopAppBar = true;
   late ScrollController scrollController;
   double scrollAmountProfferedSize = 120.0;
   double scrollAmountAppBar = 80.0;
-
-  String emphasisApi =
-      'https://api.themoviedb.org/3/movie/453071-the-day-naruto-became-hokage?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
-  String emphasisApiCredit =
-      'https://api.themoviedb.org/3/movie/635302-demon/credits?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
-
-  //parts of access from the url api
-  String imgPath = 'https://image.tmdb.org/t/p/w500';
 
   //Futures
   late Future<ApiDetailedData> futureEmphasis;
@@ -40,19 +39,27 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+    API_KEY = Config.getApiKey('API_KEY');
+    IMAGE_PATH = Config.getApiKey('IMAGE_PATH');
+
+    emphasisBannerApi =
+        'https://api.themoviedb.org/3/movie/453071-the-day-naruto-became-hokage?api_key=$API_KEY&language=pt-BR';
+    emphasisBannerApiCredit =
+        'https://api.themoviedb.org/3/movie/635302-demon/credits?api_key=$API_KEY&language=pt-BR';
+
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
 
-    futureEmphasis = detailedDataFetch(emphasisApi);
+    futureEmphasis = detailedDataFetch(emphasisBannerApi);
   }
 
   fetchDetailedApi(context) async {
-    detailedData = await detailedDataFetch(emphasisApi);
-    creditData = await creditDataFetch(emphasisApiCredit);
+    detailedData = await detailedDataFetch(emphasisBannerApi);
+    creditData = await creditDataFetch(emphasisBannerApiCredit);
 
     modalBottomSheet(
       context,
-      imgPath: imgPath,
       itemDetailed: detailedData,
       itemCredit: creditData,
       indexTop10: -1,
@@ -140,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                                         height: size.height,
                                         width: size.width,
                                         child: Image.network(
-                                          '$imgPath${snapshot.data!.poster_path}',
+                                          '$IMAGE_PATH${snapshot.data!.poster_path}',
                                           fit: BoxFit.fill,
                                           loadingBuilder: (context, child,
                                               loadingProgress) {
@@ -339,7 +346,6 @@ class _HomePageState extends State<HomePage> {
                 Carousel(
                   title: 'Assistir novamente',
                   apiSubject: watchAgainApi,
-                  imgPath: imgPath,
                 ),
                 SizedBox(
                   height: 30,
@@ -347,7 +353,6 @@ class _HomePageState extends State<HomePage> {
                 Carousel(
                   title: 'Mais populares',
                   apiSubject: mostPopularApi,
-                  imgPath: imgPath,
                 ),
                 SizedBox(
                   height: 30,
@@ -355,7 +360,6 @@ class _HomePageState extends State<HomePage> {
                 Carousel(
                   title: 'TOP 10 de TODOS os Tempos',
                   apiSubject: top10Api,
-                  imgPath: imgPath,
                   remove: 10,
                   top10: true,
                 ),
@@ -365,7 +369,6 @@ class _HomePageState extends State<HomePage> {
                 Carousel(
                   title: 'Estão assistindo agora',
                   apiSubject: nowPlayingApi,
-                  imgPath: imgPath,
                 ),
                 SizedBox(
                   height: 20,

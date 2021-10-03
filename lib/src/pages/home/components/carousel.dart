@@ -5,13 +5,14 @@ import '../../../data/carrouselData.dart';
 import '../../../data/detailedData.dart';
 import '../../../data/creditData.dart';
 
+import '../../../config/config.dart';
+
 import '../../../utils/apiUrl.dart';
 
 import './bottomSheet.dart';
 
 class Carousel extends StatefulWidget {
   final String title;
-  final String imgPath;
   final String apiSubject;
   final int remove;
   final bool top10;
@@ -19,7 +20,6 @@ class Carousel extends StatefulWidget {
   const Carousel({
     Key? key,
     required this.title,
-    required this.imgPath,
     required this.apiSubject,
     this.top10: false,
     this.remove: 0,
@@ -30,7 +30,7 @@ class Carousel extends StatefulWidget {
 }
 
 class _CarouselState extends State<Carousel> {
-  late String imgPath = '';
+  late String IMAGE_PATH = '';
   late String detailedApi = '';
   late String creditApi = '';
 
@@ -42,7 +42,7 @@ class _CarouselState extends State<Carousel> {
   @override
   void initState() {
     super.initState();
-    imgPath = widget.imgPath;
+    IMAGE_PATH = Config.getApiKey('IMAGE_PATH');
 
     futureSubject =
         carrouselDataFetch(widget.apiSubject, widget.remove).then((value) {
@@ -59,7 +59,6 @@ class _CarouselState extends State<Carousel> {
 
     modalBottomSheet(
       context,
-      imgPath: imgPath,
       itemDetailed: detailedData,
       itemCredit: creditData,
       indexTop10: indexTop10,
@@ -140,7 +139,7 @@ class _CarouselState extends State<Carousel> {
                                                           item['poster_path'] !=
                                                               null))
                                                       ? NetworkImage(
-                                                          '$imgPath${item['poster_path']}',
+                                                          '$IMAGE_PATH${item['poster_path']}',
                                                         )
                                                       : AssetImage(
                                                               'assets/default-movie.png')

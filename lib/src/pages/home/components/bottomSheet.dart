@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../config/config.dart';
+
 import '../../../utils/durationTime.dart';
 
 modalBottomSheet(
   context, {
-  required imgPath,
   required itemDetailed,
   required itemCredit,
   indexTop10 = -1,
 }) {
+  String IMAGE_PATH = Config.getApiKey('IMAGE_PATH');
   var size = MediaQuery.of(context).size;
 
   showModalBottomSheet(
@@ -22,7 +24,7 @@ modalBottomSheet(
     builder: (BuildContext context) {
       return GestureDetector(
         onTap: () => Navigator.pushNamed(context, '/detailedPage',
-            arguments: [itemDetailed, itemCredit, imgPath, indexTop10]),
+            arguments: [itemDetailed, itemCredit, IMAGE_PATH, indexTop10]),
         child: Container(
           child: new Wrap(
             children: <Widget>[
@@ -61,7 +63,7 @@ modalBottomSheet(
                                   fit: BoxFit.cover,
                                   image: (itemDetailed.backdrop_path != '')
                                       ? NetworkImage(
-                                          '$imgPath${itemDetailed.backdrop_path}',
+                                          '$IMAGE_PATH${itemDetailed.backdrop_path}',
                                         )
                                       : AssetImage('assets/default-movie.png')
                                           as ImageProvider),

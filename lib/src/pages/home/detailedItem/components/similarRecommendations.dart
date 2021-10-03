@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:indexed/indexed.dart';
 
 import '../../../../data/carrouselData.dart';
 import '../../../../data/detailedData.dart';
 import '../../../../data/creditData.dart';
+
+import '../../../../config/config.dart';
 
 import '../../../../utils/apiUrl.dart';
 
 import '../../components/bottomSheet.dart';
 
 class SimilarRecommendations extends StatefulWidget {
-  final String imgPath;
   final String apiSubject;
   final int remove;
   final bool top10;
 
   const SimilarRecommendations({
     Key? key,
-    required this.imgPath,
     required this.apiSubject,
     this.top10: false,
     this.remove: 0,
@@ -28,7 +27,7 @@ class SimilarRecommendations extends StatefulWidget {
 }
 
 class _SimilarRecommendationsState extends State<SimilarRecommendations> {
-  late String imgPath = '';
+  late String IMAGE_PATH = '';
   late String detailedApi = '';
   late String creditApi = '';
 
@@ -40,7 +39,7 @@ class _SimilarRecommendationsState extends State<SimilarRecommendations> {
   @override
   void initState() {
     super.initState();
-    imgPath = widget.imgPath;
+    IMAGE_PATH = Config.getApiKey('IMAGE_PATH');
 
     futureSubject =
         carrouselDataFetch(widget.apiSubject, widget.remove).then((value) {
@@ -57,7 +56,6 @@ class _SimilarRecommendationsState extends State<SimilarRecommendations> {
 
     modalBottomSheet(
       context,
-      imgPath: imgPath,
       itemDetailed: detailedData,
       itemCredit: creditData,
       indexTop10: indexTop10,
@@ -147,7 +145,7 @@ class _SimilarRecommendationsState extends State<SimilarRecommendations> {
                                     image: ((item['poster_path'] != null &&
                                             item['poster_path'] != ''))
                                         ? NetworkImage(
-                                            '$imgPath${item['poster_path']}',
+                                            '$IMAGE_PATH${item['poster_path']}',
                                           )
                                         : AssetImage('assets/default-movie.png')
                                             as ImageProvider,
