@@ -108,6 +108,7 @@ class _HomePageState extends State<HomePage> {
     String watchAgainApi = apiCarouselUrl(page: 20, type: 'popular');
     String mostPopularApi = apiCarouselUrl(page: 1, type: 'popular');
     String top10Api = apiCarouselUrl(page: 1, type: 'top_rated');
+    print(top10Api);
     String nowPlayingApi = apiCarouselUrl(page: 2, type: 'now_playing');
 
     return Scaffold(
@@ -358,7 +359,7 @@ class _HomePageState extends State<HomePage> {
                   height: 30,
                 ),
                 Carousel(
-                  title: 'TOP 10 de TODOS os Tempos',
+                  title: 'TOP 10 do dia',
                   apiSubject: top10Api,
                   remove: 10,
                   top10: true,

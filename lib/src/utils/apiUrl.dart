@@ -1,5 +1,9 @@
+import '../config/config.dart';
+
+String API_KEY = Config.getApiKey('API_KEY');
+
 String apiBase = 'https://api.themoviedb.org/3/';
-String apiKey = 'api_key=b08d03e485967449e3ee8777025070fd';
+String apiKey = 'api_key=$API_KEY';
 String language = '&language=pt-BR';
 String discover = 'discover/';
 String getMovie = 'movie?';
@@ -12,7 +16,7 @@ String apiCarouselUrl({required int page, required String type}) {
   }
 
   if (type == 'top_rated') {
-    return '$apiBase${movieDetail}top_rated?$apiKey$language&page=$page';
+    return '$apiBase/trending/${movieDetail}day?$apiKey$language';
   }
 
   if (type == 'now_playing') {

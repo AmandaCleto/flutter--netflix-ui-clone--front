@@ -396,7 +396,7 @@ class _DetailedItemState extends State<DetailedItem> {
                         ),
                         SimilarRecommendations(
                           apiSubject: recommendationsData,
-                          remove: 8,
+                          remove: 12,
                         ),
                       ],
                     ),
