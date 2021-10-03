@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../utils/apiUrl.dart';
+
 import '../../data/detailedData.dart';
 import '../../data/creditData.dart';
+
+import '../../config/config.dart';
 
 import '../components/appBar.dart';
 import './components/carousel.dart';
@@ -17,29 +21,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var API_KEY = '';
+  String emphasisBannerApi = '';
+  String emphasisBannerApiCredit = '';
+  String IMAGE_PATH = '';
+
   bool hideTopAppBar = true;
   late ScrollController scrollController;
-  double scrollAmountPrefferedSize = 120.0;
+  double scrollAmountProfferedSize = 120.0;
   double scrollAmountAppBar = 80.0;
-
-  //Apis
-  late String detailedApi = '';
-  late String creditApi = '';
-
-  String emphasisApi =
-      'https://api.themoviedb.org/3/movie/635302-demon?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
-  String emphasisApiCast =
-      'https://api.themoviedb.org/3/movie/635302-demon/credits?api_key=b08d03e485967449e3ee8777025070fd&language=pt-BR';
-
-  //parts of access from the url api
-  String apiBase = 'https://api.themoviedb.org/3/';
-  String apiKey = 'api_key=b08d03e485967449e3ee8777025070fd';
-  String language = '&language=pt-BR';
-  String discover = 'discover/';
-  String getMovie = 'movie?';
-  String movieDetail = 'movie/';
-  String topRated = 'top_rated?';
-  String imgPath = 'https://image.tmdb.org/t/p/w500';
 
   //Futures
   late Future<ApiDetailedData> futureEmphasis;
@@ -49,17 +39,31 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+    API_KEY = Config.getApiKey('API_KEY');
+    IMAGE_PATH = Config.getApiKey('IMAGE_PATH');
+
+    emphasisBannerApi =
+        'https://api.themoviedb.org/3/movie/453071-the-day-naruto-became-hokage?api_key=$API_KEY&language=pt-BR';
+    emphasisBannerApiCredit =
+        'https://api.themoviedb.org/3/movie/635302-demon/credits?api_key=$API_KEY&language=pt-BR';
+
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
 
-    futureEmphasis = detailedDataFetch(emphasisApi);
+    futureEmphasis = detailedDataFetch(emphasisBannerApi);
   }
 
   fetchDetailedApi(context) async {
-    detailedData = await detailedDataFetch(emphasisApi);
-    creditData = await creditDataFetch(emphasisApiCast);
+    detailedData = await detailedDataFetch(emphasisBannerApi);
+    creditData = await creditDataFetch(emphasisBannerApiCredit);
 
-    modalBottomSheet(context, imgPath, detailedData, creditData);
+    modalBottomSheet(
+      context,
+      itemDetailed: detailedData,
+      itemCredit: creditData,
+      indexTop10: -1,
+    );
   }
 
   _scrollListener() {
@@ -67,8 +71,8 @@ class _HomePageState extends State<HomePage> {
         ScrollDirection.forward) {
       setState(() {
         //descendo
-        if (scrollAmountPrefferedSize < 100) {
-          scrollAmountPrefferedSize += 1.0;
+        if (scrollAmountProfferedSize < 100) {
+          scrollAmountProfferedSize += 1.0;
         }
 
         if (scrollAmountAppBar < 60) {
@@ -83,8 +87,8 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         //subindo
 
-        if (scrollAmountPrefferedSize > 60) {
-          scrollAmountPrefferedSize -= 1.0;
+        if (scrollAmountProfferedSize > 60) {
+          scrollAmountProfferedSize -= 1.0;
         }
 
         if (scrollAmountAppBar > 10) {
@@ -101,16 +105,15 @@ class _HomePageState extends State<HomePage> {
     var size = MediaQuery.of(context).size;
 
     //carrousel apis
-    String mostPopularApi =
-        '${apiBase}${movieDetail}popular?${apiKey}${language}';
-    String top10Api = '${apiBase}${movieDetail}top_rated?${apiKey}${language}';
-    String movieApi1 =
-        '${apiBase}${discover}${getMovie}${apiKey}${language}&page=10';
+    String watchAgainApi = apiCarouselUrl(page: 20, type: 'popular');
+    String mostPopularApi = apiCarouselUrl(page: 1, type: 'popular');
+    String top10Api = apiCarouselUrl(page: 1, type: 'top_rated');
+    String nowPlayingApi = apiCarouselUrl(page: 2, type: 'now_playing');
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(scrollAmountPrefferedSize),
+        preferredSize: Size.fromHeight(scrollAmountProfferedSize),
         child: CustomAppBar(
           scrollOffset: 200,
           scrollAmountAppBar: scrollAmountAppBar,
@@ -144,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                                         height: size.height,
                                         width: size.width,
                                         child: Image.network(
-                                          '$imgPath${snapshot.data!.poster_path}',
+                                          '$IMAGE_PATH${snapshot.data!.poster_path}',
                                           fit: BoxFit.fill,
                                           loadingBuilder: (context, child,
                                               loadingProgress) {
@@ -195,8 +198,8 @@ class _HomePageState extends State<HomePage> {
                                                 fontSize: 36,
                                                 foreground: Paint()
                                                   ..style = PaintingStyle.stroke
-                                                  ..strokeWidth = 6
-                                                  ..color = Color(0xFF445767),
+                                                  ..strokeWidth = 1
+                                                  ..color = Color(0xFFFF7F01),
                                               ),
                                             ),
                                             Text(
@@ -341,13 +344,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Carousel(
+                  title: 'Assistir novamente',
+                  apiSubject: watchAgainApi,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Carousel(
                   title: 'Mais populares',
                   apiSubject: mostPopularApi,
-                  imgPath: imgPath,
-                  apiBase: apiBase,
-                  movieDetail: movieDetail,
-                  language: language,
-                  apiKey: apiKey,
                 ),
                 SizedBox(
                   height: 30,
@@ -355,28 +360,18 @@ class _HomePageState extends State<HomePage> {
                 Carousel(
                   title: 'TOP 10 de TODOS os Tempos',
                   apiSubject: top10Api,
-                  imgPath: imgPath,
-                  apiBase: apiBase,
-                  movieDetail: movieDetail,
-                  language: language,
-                  apiKey: apiKey,
-                  limit: 10,
+                  remove: 10,
                   top10: true,
                 ),
                 SizedBox(
                   height: 30,
                 ),
                 Carousel(
-                  title: 'Filmes incríveis',
-                  apiSubject: movieApi1,
-                  imgPath: imgPath,
-                  apiBase: apiBase,
-                  movieDetail: movieDetail,
-                  language: language,
-                  apiKey: apiKey,
+                  title: 'Estão assistindo agora',
+                  apiSubject: nowPlayingApi,
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
               ],
             ),

@@ -4,8 +4,13 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../utils/durationTime.dart';
 import '../../../utils/relevant.dart';
+import '../../../utils/apiUrl.dart';
+import '../../../utils/getNamesFromSubject.dart';
 
-import 'components/detaieldItemAppBar.dart';
+import '../../../config/config.dart';
+
+import 'components/detailedItemAppBar.dart';
+import 'components/similarRecommendations.dart';
 
 class DetailedItem extends StatefulWidget {
   final dynamic data;
@@ -16,24 +21,31 @@ class DetailedItem extends StatefulWidget {
 }
 
 class _DetailedItemState extends State<DetailedItem> {
+  late String IMAGE_PATH = '';
+  @override
+  void initState() {
+    super.initState();
+    IMAGE_PATH = Config.getApiKey('IMAGE_PATH');
+  }
+
   @override
   Widget build(BuildContext context) {
     var itemDetailed = widget.data[0];
-    var itemCast = widget.data[1];
-    var imgPath = widget.data[2];
+    var itemCast = widget.data[1].cast;
+    var itemCrew = widget.data[1].crew;
+    var indexTop10 = widget.data[3];
 
-    var castAuthors = '';
+    var castAuthors = getNames(itemList: itemCast, subject: 'Acting');
+    String castDirectors = getNames(itemList: itemCrew, subject: 'Directing');
 
-    for (final index in itemCast.cast) {
-      castAuthors += '${index['name']}, ';
-    }
+    String recommendationsData = apiRecommendationUrl(id: itemDetailed.id);
 
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
-        child: DetaieldItemAppBar(),
+        child: DetailedItemAppBar(),
       ),
       body: Container(
         color: Colors.black,
@@ -48,8 +60,13 @@ class _DetailedItemState extends State<DetailedItem> {
                 height: 200,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image:
-                        NetworkImage('$imgPath${itemDetailed.backdrop_path}'),
+                    image: ((itemDetailed.backdrop_path != '' &&
+                            itemDetailed.backdrop_path != null))
+                        ? NetworkImage(
+                            '$IMAGE_PATH${itemDetailed.backdrop_path}',
+                          )
+                        : AssetImage('assets/default-movie-detail.png')
+                            as ImageProvider,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -126,6 +143,32 @@ class _DetailedItemState extends State<DetailedItem> {
                         SizedBox(
                           height: 10,
                         ),
+                        indexTop10 >= 0
+                            ? Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/top10.svg',
+                                    height: 25,
+                                    width: 10,
+                                    allowDrawingOutsideViewBox: true,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'Brasil: top $indexTop10 de TODOS os tempos',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : SizedBox.shrink(),
+                        SizedBox(
+                          height: 20,
+                        ),
                         SizedBox(
                           width: size.width,
                           height: 35,
@@ -188,42 +231,80 @@ class _DetailedItemState extends State<DetailedItem> {
                           height: 10,
                         ),
                         Container(
-                          child: Container(
-                            width: size.width,
-                            child: Wrap(
-                              children: [
-                                RichText(
-                                  overflow: TextOverflow.ellipsis,
-                                  text: TextSpan(
-                                    text: 'Estrelando: ',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      height: 1.2,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: castAuthors,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Text(
-                                  'mais',
+                          width: size.width,
+                          child: Wrap(
+                            children: [
+                              RichText(
+                                overflow: TextOverflow.ellipsis,
+                                text: TextSpan(
+                                  text: 'Estrelando: ',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.2,
+                                    fontWeight: FontWeight.w600,
                                     fontSize: 12,
+                                    height: 1.2,
                                   ),
+                                  children: [
+                                    TextSpan(
+                                      text: castAuthors,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              Text(
+                                'mais',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.1,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: size.width,
+                          child: Wrap(
+                            children: [
+                              RichText(
+                                overflow: TextOverflow.ellipsis,
+                                text: TextSpan(
+                                  text: 'Direção: ',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    height: 1.2,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: castDirectors,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                'mais',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.1,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(
@@ -313,18 +394,16 @@ class _DetailedItemState extends State<DetailedItem> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 20,
+                        SimilarRecommendations(
+                          apiSubject: recommendationsData,
+                          remove: 8,
                         ),
-                        Divider(
-                          color: Colors.white,
-                        )
                       ],
                     ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

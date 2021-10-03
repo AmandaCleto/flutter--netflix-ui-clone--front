@@ -29,6 +29,7 @@ dependencies:
   path_provider: ^2.0.4
   network_to_file_image: ^3.0.2
   indexed: ^0.0.6
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +50,9 @@ flutter:
   assets:
     - assets/
     - assets/icons/
+    - .env
+    - .env_example
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

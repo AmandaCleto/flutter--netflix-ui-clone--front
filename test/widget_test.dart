@@ -8,7 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:ui_clone_netflix/main.dart';
 import 'package:ui_clone_netflix/src/app.dart';
 
 void main() {
