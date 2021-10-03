@@ -5,7 +5,7 @@
 
 <br>
 
-## 📷 Illustrative gif of the project:
+## 📷 Illustrative gifs of the project:
 ![](https://amandacleto.github.io/images-for-projects/public/images/github-readme/project-netflix-clone-1.gif)
 ![](https://amandacleto.github.io/images-for-projects/public/images/github-readme/project-netflix-clone-2.gif)
 
