@@ -5,6 +5,7 @@
 
 <br>
 
+## 📷 Illustrative gif of the project:
 ![](https://amandacleto.github.io/images-for-projects/public/images/github-readme/project-netflix-clone-1.gif)
 
 
@@ -14,15 +15,15 @@
 Create a Flutter Project in order to apply the knowledge studied.
 The project should follow:
 * Consumption of the following API:
-[https://www.themoviedb.org/documentation/api?language=pt-BR](https://www.themoviedb.org/documentation/api?language=pt-BR)
-* The Home Page must have:
+[https://www.themoviedb.org/documentation/api?language=pt-BR](https://www.themoviedb.org/documentation/api?language=pt-BR).
+* The **Home Page** must have:
   * Highlighted random movie;
   * Watch again (no need to create logic of which movie was watched or not, just show the movies that is returned from the API randomly);
   * Movies cover;
   * Top 10 movies;
   * 3 lines of categories you prefer (the API returns the movie category, so the movies that are listed really need to belong to the category).
 
-* One page with information, trailers for each movie.
+* One **Information Page**, containing data for each movie.
   * In place of the trailer, the banner can be the movie (backdrop);
   * Title;
   * Description;
