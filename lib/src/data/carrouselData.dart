@@ -24,7 +24,7 @@ Future<ApiCarrouselData> carrouselDataFetch(api, remove) async {
   final cut = convert.jsonDecode(response.body);
 
   if (remove > 0) {
-    cut['results'].removeRange(0, remove);
+    cut['results'].removeRange(remove, 20);
   }
 
   if (response.statusCode == 200) {
