@@ -7,6 +7,8 @@ import '../../../utils/relevant.dart';
 import '../../../utils/apiUrl.dart';
 import '../../../utils/getNamesFromSubject.dart';
 
+import '../../../config/config.dart';
+
 import 'components/detailedItemAppBar.dart';
 import 'components/similarRecommendations.dart';
 
@@ -19,12 +21,18 @@ class DetailedItem extends StatefulWidget {
 }
 
 class _DetailedItemState extends State<DetailedItem> {
+  late String IMAGE_PATH = '';
+  @override
+  void initState() {
+    super.initState();
+    IMAGE_PATH = Config.getApiKey('IMAGE_PATH');
+  }
+
   @override
   Widget build(BuildContext context) {
     var itemDetailed = widget.data[0];
     var itemCast = widget.data[1].cast;
     var itemCrew = widget.data[1].crew;
-    var imgPath = widget.data[2];
     var indexTop10 = widget.data[3];
 
     var castAuthors = getNames(itemList: itemCast, subject: 'Acting');
@@ -55,7 +63,7 @@ class _DetailedItemState extends State<DetailedItem> {
                     image: ((itemDetailed.backdrop_path != '' &&
                             itemDetailed.backdrop_path != null))
                         ? NetworkImage(
-                            '$imgPath${itemDetailed.backdrop_path}',
+                            '$IMAGE_PATH${itemDetailed.backdrop_path}',
                           )
                         : AssetImage('assets/default-movie-detail.png')
                             as ImageProvider,
@@ -388,7 +396,6 @@ class _DetailedItemState extends State<DetailedItem> {
                         ),
                         SimilarRecommendations(
                           apiSubject: recommendationsData,
-                          imgPath: imgPath,
                           remove: 8,
                         ),
                       ],
