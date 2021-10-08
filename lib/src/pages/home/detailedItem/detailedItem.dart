@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ui_clone_netflix/src/pages/components/bottomNavigationBar.dart';
 
 import '../../../utils/durationTime.dart';
 import '../../../utils/relevant.dart';
@@ -407,6 +408,7 @@ class _DetailedItemState extends State<DetailedItem> {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBarWidget(),
     );
   }
 }
