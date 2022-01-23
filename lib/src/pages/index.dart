@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ui_clone_netflix/src/pages/home.dart';
 
 import '../providers/bottomNavigationBar.dart';
 import 'components/bottomNavigationBar.dart';
-import 'home/home.dart';
 
 class IndexPage extends StatefulWidget {
   IndexPage({Key? key}) : super(key: key);
